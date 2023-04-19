@@ -8,7 +8,7 @@ export default function App() {
     return (
         <>
             <Navbar setNavHover={setNavHover} />
-            <Body navHover={navHover}/>
+            <Body navHover={navHover} setNavHover={setNavHover}/>
 
             <h1>sembrar</h1>
             <p>

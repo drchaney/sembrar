@@ -1,17 +1,15 @@
-import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import logo from "../assets/logo.png"
 import "./navbar.css"
+import { DateTime } from "luxon";
 
 export default function Navbar({setNavHover}){    
     const [categories, setCategories] = useState([])
+    const [sale, setSale] = useState([])
+    const [salesExpirationDate, setSalesExpirationDate] = useState("")
 
     const handleMouseOver = (event) => {
         setNavHover(event.target.innerText)
-    }
-
-    const handleMouseOut = (event) => {
-        setNavHover("")
     }
 
     useEffect(()=>{
@@ -28,8 +26,41 @@ export default function Navbar({setNavHover}){
     getCategories();
     },[])
 
+    useEffect(()=>{
+        async function getSalesArticle() {
+            const URL = "http://localhost:4000/api/admin/sale";
+            try {
+                const response = await fetch(URL)
+                const results = await response.json();
+                for (let i=0; i<results.length; i++){
+                    if (results[i].isactive){
+                        setSale(results[i])
+                        if (results[i].end_date){
+                            const sqlDate = results[i].end_date;
+                            const dateObj = DateTime.fromISO(sqlDate);
+                            const formattedDate = dateObj.toFormat('LL-dd-yy')
+                            setSalesExpirationDate(formattedDate)
+                        }
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
+    getSalesArticle();
+    },[])
+
     return(
-        <>
+        <>  
+           {
+                sale?
+                    <>
+                        <div className="text-center sales-banner"><h5>{sale.title} - {sale.body}
+                            { salesExpirationDate? <span> Hurry! Sale expires: {salesExpirationDate}</span>:null }
+                        </h5></div>
+                    </>:null
+            }
             <nav className="navbar sticky-top navvy-bar navbar-expand-lg">
                 <div className="container-fluid">
                     <a className="navbar-brand" href="#"><img src={logo} alt="sembrar logo" className="navbar-image"/>Sembrar</a>
@@ -43,10 +74,9 @@ export default function Navbar({setNavHover}){
                             {
                                 categories.map((category) => {
                                     return(
-                                        <ul className="navbar-nav me-auto mb-2 mb-lg-0" key={category.id}>
+                                        <ul className="navbar-nav me-auto mb-2 mb-lg-0" key={category.id} onMouseOver={handleMouseOver}>
                                             <li className="nav-item">
-                                                <a className="nav-link" href={category.category_name} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-                                                {category.category_name} </a>
+                                                <a className="nav-link" href={category.category_name}>{category.category_name} </a>
                                             </li>
                                         </ul>
                                     )
@@ -64,7 +94,6 @@ export default function Navbar({setNavHover}){
                     </div>
                 </div>
             </nav>
-            <div className="nav-box"></div>
         </>
     )
 }

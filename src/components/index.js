@@ -5,3 +5,4 @@ export {default as IndoorPlants} from "./IndoorPlants";
 export {default as Veggies} from "./Veggies";
 export {default as Herbs} from "./Herbs";
 export {default as Supplies} from "./Supplies";
+export {default as Featured} from "./Featured";
