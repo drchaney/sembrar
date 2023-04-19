@@ -4,10 +4,11 @@ import { Navbar, Body } from "./components/"
 import "./App.css"
 
 export default function App() {
+    const [navHover, setNavHover] = useState("")
     return (
         <>
-            <Navbar/>
-            <Body/>
+            <Navbar setNavHover={setNavHover} />
+            <Body navHover={navHover}/>
 
             <h1>sembrar</h1>
             <p>

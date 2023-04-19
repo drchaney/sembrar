@@ -3,8 +3,16 @@ import { useState, useEffect } from "react";
 import logo from "../assets/logo.png"
 import "./navbar.css"
 
-export default function Navbar(){    
+export default function Navbar({setNavHover}){    
     const [categories, setCategories] = useState([])
+
+    const handleMouseOver = (event) => {
+        setNavHover(event.target.innerText)
+    }
+
+    const handleMouseOut = (event) => {
+        setNavHover("")
+    }
 
     useEffect(()=>{
         async function getCategories() {
@@ -24,7 +32,7 @@ export default function Navbar(){
         <>
             <nav className="navbar sticky-top navvy-bar navbar-expand-lg">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="#">Sembrar<img src={logo} alt="sembrar logo" className="navbar-image"/></a>
+                    <a className="navbar-brand" href="#"><img src={logo} alt="sembrar logo" className="navbar-image"/>Sembrar</a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -35,17 +43,18 @@ export default function Navbar(){
                             {
                                 categories.map((category) => {
                                     return(
-                                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                                        <ul className="navbar-nav me-auto mb-2 mb-lg-0" key={category.id}>
                                             <li className="nav-item">
-                                                <a className="nav-link" key={category.id} href={category.category_name}>{category.category_name}</a>
+                                                <a className="nav-link" href={category.category_name} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+                                                {category.category_name} </a>
                                             </li>
                                         </ul>
                                     )
                                 })
                             }
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <form class="d-flex" role="search">
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                            <form className="d-flex" role="search">
+                                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
                             </form>
                         </ul>
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
