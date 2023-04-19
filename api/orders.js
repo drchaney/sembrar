@@ -20,9 +20,9 @@ ordersRouter.get('/cart/:user_id', async (req, res, next) => {
         if(cart.length>0) {
             res.send(cart);
         } else {
-            res.send({
+            next({
             name: 'NotFound',
-            message: `No cart for user_id ${req.req.params.user_id}`
+            message: `No cart for user_id ${req.params.user_id}`
         })
     }
     } catch (error) {
@@ -37,9 +37,9 @@ ordersRouter.get('/:user_id', async (req, res, next) => {
         if(orders.length>0) {
             res.send(orders);
         } else {
-            res.send({
+            next({
             name: 'NotFound',
-            message: `No orders for user_id ${req.req.params.user_id}`
+            message: `No orders for user_id ${req.params.user_id}`
         })
     }
     } catch (error) {

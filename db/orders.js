@@ -60,7 +60,7 @@ module.exports = {
     getCartByUserId,
     addToCart,
     getOrdersByUserId,
-    cartToOrdersByCartId
+    createOrder
 };
 
 

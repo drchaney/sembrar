@@ -29,7 +29,7 @@ productsRouter.get('/featured/:category', async (req, res, next) => {
         if(products.length>0) {
             res.send(products);
         } else {
-            res.send({
+            next({
             name: 'NotFound',
             message: `No featured products have a category of ${req.params.category}`
             })
@@ -46,7 +46,7 @@ productsRouter.get('/featured/tag/:tag', async (req, res, next) => {
         if(products.length>0) {
             res.send(products);
         } else {
-            res.send({
+            next({
             name: 'NotFound',
             message: `No featured products have a tag of ${req.params.tag}`
             })
@@ -73,7 +73,7 @@ productsRouter.get('/category/:category', async (req, res, next) => {
         if(products.length>0) {
             res.send(products);
         } else {
-            res.send({
+            next({
             name: 'NotFound',
             message: `No products have a category of ${req.params.category}`
         })

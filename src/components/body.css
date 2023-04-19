@@ -1,0 +1,39 @@
+video {
+    width: 100vw;
+    z-index: -1;
+    top: 40;
+}
+
+.video-over{
+    position: absolute;
+    top: 0;
+    padding-top: 75px;
+    left: 0;
+    border: 1px solid darkgreen;
+    border-top: 0px;
+    width: 100vw;
+    height: 65%;
+    background: rgba(255,255,255,0.95);
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+}
+
+.video-over img{
+    top: 50%;
+    height: 20vw;
+    margin: 50px;
+}
+
+.video-over h1{
+    margin-left: 50px;
+}
+
+
+.viewport-header {
+    position: relative;
+    height: 100vh;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }

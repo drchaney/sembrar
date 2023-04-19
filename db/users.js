@@ -64,11 +64,65 @@ async function loginUser({email, password}) {
     }
 }
 
+async function editReview({ review_id, review, rating }) {
+    try {
+        const {rows: [editReview]} = await client.query(`
+            UPDATE reviews
+            SET rating = $3, review = $2
+            WHERE id = $1
+        `, [review_id, review, rating]);
+        return editReview;
+    } catch (error) {
+        throw error;
+    }
+}
 
+async function getReviewById(id){
+    try {
+        const {rows: [review]} = await client.query(`
+            SELECT * FROM routines
+            WHERE id = $1
+        `, [id]);
+        return review;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function editUser({ user_id, first_name, last_name, email, address_line_1, address_line_2, city, state, zip, user_group, isActive }) {
+    try {
+        const {rows: [editUser]} = await client.query(`
+            UPDATE users
+            SET first_name = $2, last_name = $3, email = $4, address_line_1 = $5, address_line_2 = $6, city = $7, state = $8, zip = $9, user_group = $10, isActive = $11
+            WHERE id = $1
+        `, [user_id, first_name, last_name, email, address_line_1, address_line_2, city, state, zip, user_group, isActive]);
+        return editUser;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+async function getUserById(id){
+    try {
+        const {rows: [user]} = await client.query(`
+            SELECT * FROM users
+            WHERE id = $1
+        `, [id]);
+        return user;
+    } catch (error) {
+        throw error;
+    }
+}
+
+getUserById
 
 module.exports = {
     createUser,
     createReview,
     checkUserByEmail,
-    loginUser
+    loginUser,
+    editReview,
+    getReviewById,
+    editUser
 };

@@ -1,0 +1,37 @@
+.navbar-image {
+    width: 50px;
+}
+
+.navvy-bar {
+    background-color: rgba(18, 18, 18, .01);
+    backdrop-filter: blur(7px);
+  }
+
+.nav-item a{
+    font-size: 1.25em;
+    transition: 0.3s;
+}
+
+.bi {
+    font-size: 1.5em;
+}
+
+.nav-item :hover{
+    font-size: 1.35em;
+    transition: 0.3s;
+}
+
+.nav-box{
+    display: none;
+    width: 100px;
+    height: 100px;
+    border: 1px solid red;
+}
+
+.nav-item :hover .nav-box{
+    display: block;
+}
+
+.icon-spacer{
+    padding: 5px;
+}
