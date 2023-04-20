@@ -1,0 +1,25 @@
+.header-image{
+    padding-bottom: 15px;
+}
+
+.product-tag{
+    border: 1px solid lightgreen;
+    background-color: rgba(22, 56, 22, 0.75);
+    box-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+    transition: 0.25s
+}
+
+.product-card{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+    border: 5px solid darkgreen;
+    transition: 0.3s;
+}
+
+.product-card:hover {
+    outline:5px solid lime;
+    outline-offset: 4px;
+    border: 1px solid green;
+}

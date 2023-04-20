@@ -10,13 +10,25 @@ export default function Featured({navHover}){
             try {
                 const response = await fetch(URL)
                 const results = await response.json();
-                setCategories(results)
+                if (results.length == 0){
+                    return;
+                }
+                let randomIndex = Math.floor(Math.random() * results.length);
+                let newResults = []
+                    for (let i = 0; i < 3; i++){
+                        newResults.push(results[randomIndex])
+                        randomIndex = randomIndex + 1;
+                        if (randomIndex == results.length){
+                            randomIndex = 0;   
+                        }
+                    }
+                setCategories(newResults)
             } catch (error) {
                 console.error(error)
             }
         }
         getFeaturedByCategory();
-    },[])
+    },[navHover])
 
     return (
         <>
@@ -27,7 +39,7 @@ export default function Featured({navHover}){
                             return(
                                 <div className="col" key={category.id}>
                                     <div 
-                                        className="feat-card card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+                                        className="feat-card card card-cover h-100 overflow-hidden text-bg-dark rounded-2"
                                         style = {{ backgroundImage: `url(${category.photo_urls[0]})`}}>
                                         
                                         <div className="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">

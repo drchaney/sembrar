@@ -1,8 +1,8 @@
 export {default as Navbar} from "./Navbar";
-export {default as Body} from "./Body";
-export {default as OutdoorGarden} from "./OutdoorGarden";
-export {default as IndoorPlants} from "./IndoorPlants";
-export {default as Veggies} from "./Veggies";
-export {default as Herbs} from "./Herbs";
-export {default as Supplies} from "./Supplies";
+export {default as Menu} from "./Menu";
+export {default as Category} from "./Category";
 export {default as Featured} from "./Featured";
+export {default as Login} from "./Login";
+export {default as Products} from "./Products";
+export {default as Home} from "./Home";
+export {default as Header} from "./Header";

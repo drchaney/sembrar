@@ -3,6 +3,16 @@ const usersRouter = express.Router();
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET
 const { createUser, checkUserByEmail, loginUser, editUser, getUserById, editReview, getReviewById } = require('../db');
+const { requireUser } = require('./utils');
+
+// GET /api/users/me
+usersRouter.get('/me', requireUser, async (req, res, next) => {
+    try {
+        res.send(req.user.email);
+    } catch (error) {
+        next(error)
+    }
+})
 
 // GET /api/users/
 usersRouter.get('/', async (req, res, next) => {
@@ -82,7 +92,7 @@ usersRouter.post('/login', async (req, res, next) => {
         next(error);
     }
 });
-
+ 
 // POST /api/users/reviews/:reviewId
 usersRouter.post('/reviews/:reviewId', async (req, res, next) => {
     try {
@@ -91,24 +101,24 @@ usersRouter.post('/reviews/:reviewId', async (req, res, next) => {
         const reviewToEdit = await getReviewById(reviewId);
 
         if(!reviewToEdit) {
-            next({
-              name: 'ReviewNotFoundError',
-              message: `Review ID ${reviewId} not found`
+                next({
+                    name: 'ReviewNotFoundError',
+                    message: `Review ID ${reviewId} not found`
             })
           } else if(req.user.id !== reviewToEdit.user_id) {
             res.status(403);
-            next({
-              name: "WrongUserError",
-              message: `User ${req.user} did not create this review; unable to edit`
+                next({
+                    name: "WrongUserError",
+                    message: `User ${req.user} did not create this review; unable to edit`
             });
           } else {
             const updatedReview = await editReview(reviewToEdit.id, review, rating);
             if(updatedReview) {
               res.send(updatedReview);
             } else {
-              next({
-                name: 'FailedToUpdateError',
-                message: `Error updating review ID ${review.Id}`
+                next({
+                    name: 'FailedToUpdateError',
+                    message: `Error updating review ID ${review.Id}`
               })
             }
           }
@@ -125,24 +135,24 @@ usersRouter.post('/users/:reviewId', async (req, res, next) => {
         const userToEdit = await getUserById(userId);
 
         if(!userToEdit) {
-            next({
-              name: 'UserNotFoundError',
-              message: `User ID ${reviewId} not found`
+                next({
+                    name: 'UserNotFoundError',
+                    message: `User ID ${reviewId} not found`
             })
           } else if(req.user.id !== userToEdit.user_id) {
             res.status(403);
-            next({
-              name: "WrongUserError",
-              message: `User ${req.user} is unable to edit this profile`
+                next({
+                    name: "WrongUserError",
+                    message: `User ${req.user} is unable to edit this profile`
             });
           } else {
             const updatedUser = await editUser(userToEdit.id, first_name, last_name, email, address_line_1, address_line_2, city, state, zip, user_group, isActive);
             if(updatedReview) {
               res.send(updatedReview);
             } else {
-              next({
-                name: 'FailedToUpdateError',
-                message: `Error updating review ID ${review.Id}`
+                next({
+                    name: 'FailedToUpdateError',
+                    message: `Error updating review ID ${review.Id}`
               })
             }
           }

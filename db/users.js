@@ -102,20 +102,17 @@ async function editUser({ user_id, first_name, last_name, email, address_line_1,
     }
 }
 
-
 async function getUserById(id){
     try {
-        const {rows: [user]} = await client.query(`
+        const {rows: [email]} = await client.query(`
             SELECT * FROM users
             WHERE id = $1
         `, [id]);
-        return user;
+        return email;
     } catch (error) {
         throw error;
     }
 }
-
-getUserById
 
 module.exports = {
     createUser,
@@ -124,5 +121,6 @@ module.exports = {
     loginUser,
     editReview,
     getReviewById,
-    editUser
+    editUser,
+    getUserById
 };

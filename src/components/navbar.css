@@ -1,6 +1,8 @@
 .sales-banner{
     background-color: yellow;
-    text-shadow: 1px 1px 1px black;
+    text-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+    position: relative;
+    z-index: 1000;
 }
 
 .navbar-image {
@@ -30,6 +32,24 @@
     display: block;
 }
 
+.nav-item a{
+    text-decoration: none;
+    color: darkgreen;
+    text-transform: capitalize;
+    text-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+    transition: 0.2s;
+}
+
+.nav-item a:hover{
+    text-shadow: 0px 0px 0px rgba(13, 13, 13, 0.5);
+}
+
+
 .icon-spacer{
     padding: 5px;
+    color: darkgreen;
+}
+
+.hide-words{
+    opacity: 0.0;
 }
