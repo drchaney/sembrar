@@ -271,22 +271,19 @@ async function createInitialUsers() {
 }
 
 async function createInitialReviews() {
-    console.log('Starting to create reviews...');
-    try {
-        const reviewsToCreate = [
-            {product_id: 1, user_id: 3, review: 'Loved it', rating: 5},
-            {product_id: 1, user_id: 4, review: 'Hated it', rating: 1},
-            {product_id: 2, user_id: 3, review: 'Meh', rating: 3},
-            {product_id: 2, user_id: 5, review: 'Its okay', rating: 3},
-            {product_id: 3, user_id: 4, review: 'Works ok', rating: 4}
-        ]
-        const reviews = await Promise.all(reviewsToCreate.map(createReview));
-        console.log('reviews created:');
-        console.log(reviews);
+    try {       
+        console.log('Starting to create reviews...');
+        await  client.query(`
+            \COPY reviews (
+                product_id, user_id, review, rating)
+            FROM '/Users/Public/my_reviews_data_table.csv'
+            DELIMITER ','
+            CSV HEADER;
+        `)
         console.log('Finished creating reviews!');
     } catch (error) {
-        console.error('Error creating reviews');
-        throw error;
+        console.error('Error creating reviews!');
+    throw error;
     }
 }
 

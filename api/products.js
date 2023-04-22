@@ -1,6 +1,6 @@
 const express = require('express');
 const productsRouter = express.Router();
-const { getAllProducts, getAllProductsByCategory, getAllCategories, getFeaturedProducts, getFeaturedProductsByCategory, getFeaturedProductsByTag } = require('../db');
+const { getAllProducts, getAllProductsByCategory, getAllCategories, getFeaturedProducts, getFeaturedProductsByCategory, getProductsByTag, getProductById, getIdFromFeaturedProducts } = require('../db');
 
 // GET /api/products/
 productsRouter.get('/', async (req, res, next) => {
@@ -16,6 +16,16 @@ productsRouter.get('/', async (req, res, next) => {
 productsRouter.get('/featured', async (req, res, next) => {
     try {
         const products = await getFeaturedProducts();
+        res.send(products);
+    } catch (error) {
+        next(error)
+    }
+})
+
+// GET /api/products/featuredIDs
+productsRouter.get('/featuredIDs', async (req, res, next) => {
+    try {
+        const products = await getIdFromFeaturedProducts();
         res.send(products);
     } catch (error) {
         next(error)
@@ -39,16 +49,16 @@ productsRouter.get('/featured/:category', async (req, res, next) => {
     }
 });
 
-// GET /api/products/featured/:tag
+// GET /api/products/featured/tag/:tag
 productsRouter.get('/featured/tag/:tag', async (req, res, next) => {
     try {
-        const products = await getFeaturedProductsByTag({tag: req.params.tag});
+        const products = await getProductsByTag({tag: req.params.tag});
         if(products.length>0) {
             res.send(products);
         } else {
             next({
             name: 'NotFound',
-            message: `No featured products have a tag of ${req.params.tag}`
+            message: `No products have a tag of ${req.params.tag}`
             })
         }
     } catch (error) {
@@ -78,6 +88,23 @@ productsRouter.get('/category/:category', async (req, res, next) => {
             message: `No products have a category of ${req.params.category}`
         })
     }
+    } catch (error) {
+        next(error);
+    }
+});
+
+// GET /api/products/item/:id
+productsRouter.get('/item/:id', async (req, res, next) => {
+    try {
+        const product = await getProductById(req.params.id);
+        if(product.length>0) {
+            res.send(product);
+        } else {
+            next({
+            name: 'NotFound',
+            message: `No item has an id of ${req.params.id}`
+            })
+        }
     } catch (error) {
         next(error);
     }

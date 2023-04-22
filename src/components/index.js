@@ -6,3 +6,7 @@ export {default as Login} from "./Login";
 export {default as Products} from "./Products";
 export {default as Home} from "./Home";
 export {default as Header} from "./Header";
+export {default as Item} from "./Item";
+export {default as Footer} from "./Footer";
+export {default as Tags} from "./Tags";
+export {default as Reviews} from "./Reviews"

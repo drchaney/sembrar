@@ -1,19 +1,18 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import star from "../assets/star.png"
 
-export default function Featured({navHover}){ 
-    const [categories, setCategories] = useState([]);
+export default function Tags({tag}){
+    const {urlTag} = useParams();
+    const [products, setProducts] = useState([]);
 
     useEffect(()=>{
-        async function getFeaturedByCategory() {
-            const category = navHover.replace(' ', '%20')
-            const URL = "http://localhost:4000/api/products/featured/" + category.toLowerCase();
+        async function getProductsByTag() {
+            const item = urlTag || tag
+            const URL = "http://localhost:4000/api/products/featured/tag/" + item;
             try {
                 const response = await fetch(URL)
                 const results = await response.json();
-                if (results.length == 0){
-                    return;
-                }
                 let randomIndex = Math.floor(Math.random() * results.length);
                 let newResults = []
                     for (let i = 0; i < 3; i++){
@@ -23,40 +22,40 @@ export default function Featured({navHover}){
                             randomIndex = 0;   
                         }
                     }
-                setCategories(newResults)
+                setProducts(newResults)
             } catch (error) {
                 console.error(error)
             }
         }
-        getFeaturedByCategory();
-    },[navHover])
+        getProductsByTag();
+    },[])
 
-    return (
+    return(
         <>
             <div className="container text-center">
                 <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     {   
-                        categories.map((category) => {
+                        products.map((product) => {
                             return(
-                                <div className="col" key={category.id}>
+                                <div className="col" key={product.id}>
                                     <div 
                                         className="feat-card card card-cover h-100 overflow-hidden text-bg-dark rounded-2"
-                                        style = {{ backgroundImage: `url(${category.photo_urls[0]})`}}>
+                                        style = {{ backgroundImage: `url(${product.photo_urls[0]})`}}>
                                         
                                         <div className="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                                            <h3 className="feat-tag mt-5 mb-4 display-6 fw-bold">{category.product_name}</h3>
+                                            <h3 className="feat-tag mt-5 mb-4 display-6 fw-bold">{product.product_name}</h3>
                                         </div>
                                         <ul className="d-flex list-unstyled mt-auto">
-                                        <li className="feat-tag d-flex align-items-center me-2"><img className="star" src={star} alt="rating out of 5 stars"/>{category.avg_rating}</li>
+                                        <li className="feat-tag d-flex align-items-center me-2"><img className="star" src={star} alt="rating out of 5 stars"/>{product.avg_rating}</li>
                                             {
-                                                category.tag_names.map((tag) => {
+                                                product.tag_names.map((tag) => {
                                                     return(
-                                                        <li className="ms-2 me-auto feat-tag" key={category.id + tag}>{tag}</li>
+                                                        <li className="ms-2 me-auto feat-tag" key={product.id + tag}>{tag}</li>
                                                     )
                                                 })
                                         
                                             }
-                                        <li className="feat-tag d-flex align-items-center me-2">${category.price}</li>
+                                        <li className="feat-tag d-flex align-items-center me-2">${product.price}</li>
                                         </ul>
                                     </div>
                                 </div>

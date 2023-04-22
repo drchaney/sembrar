@@ -3,13 +3,18 @@ const client = require('./client');
 async function getAllProducts(){
     try {
         const {rows} = await client.query(`
-            SELECT products.*, ARRAY_AGG(tags.tag_name) AS tag_names, ARRAY_AGG(product_photos.url) AS photo_urls, categories.category_name
+        SELECT products.*, ARRAY_AGG(tags.tag_name) AS tag_names, ARRAY_AGG(product_photos.url) AS photo_urls, categories.category_name, review_aggregates.avg_rating
             FROM products
             LEFT JOIN product_tags ON products.id = product_tags.product_id
             LEFT JOIN tags ON product_tags.tag_id = tags.id
             LEFT JOIN product_photos ON products.id = product_photos.product_id
             LEFT JOIN categories ON products.category_id = categories.id
-            GROUP BY products.id, product_photos.url, categories.category_name;         
+            LEFT JOIN (
+                SELECT product_id, ROUND(AVG(rating), 1) AS avg_rating
+                FROM reviews
+                GROUP BY product_id
+            ) AS review_aggregates ON products.id = review_aggregates.product_id
+            GROUP BY products.id, product_photos.url, categories.category_name, review_aggregates.avg_rating;   
         `);
         return rows;
     } catch (error) {
@@ -20,14 +25,25 @@ async function getAllProducts(){
 async function getAllProductsByCategory( {category}) {
     try {
         const {rows} = await client.query(`
-        SELECT products.*, ARRAY_AGG(tags.tag_name) AS tag_names, ARRAY_AGG(product_photos.url) AS photo_urls, categories.category_name
+        SELECT products.*, ARRAY_AGG(tags.tag_name) AS tag_names, ARRAY_AGG(product_photos.url) AS photo_urls, categories.category_name, review_aggregates.avg_rating
         FROM products
         LEFT JOIN product_tags ON products.id = product_tags.product_id
         LEFT JOIN tags ON product_tags.tag_id = tags.id
         LEFT JOIN product_photos ON products.id = product_photos.product_id
         LEFT JOIN categories ON products.category_id = categories.id
+        LEFT JOIN (
+            SELECT product_id, ROUND(AVG(rating), 1) AS avg_rating
+            FROM reviews
+            WHERE product_id IN (
+                SELECT products.id
+                FROM products
+                JOIN categories ON products.category_id = categories.id
+                WHERE categories.category_name = $1
+            )
+            GROUP BY product_id
+        ) AS review_aggregates ON products.id = review_aggregates.product_id
         WHERE categories.category_name = $1
-        GROUP BY products.id, categories.category_name;
+        GROUP BY products.id, categories.category_name, review_aggregates.avg_rating
         `, [category]);
         return rows;
     } catch (error) {
@@ -64,18 +80,43 @@ async function getFeaturedProducts(){
     }
 }
 
+async function getIdFromFeaturedProducts(){
+    try {
+        const {rows} = await client.query(`
+        SELECT id
+        FROM products
+        WHERE products.isfeatured = true
+        `);
+        return rows;
+    } catch (error) {
+        throw error;
+    }
+}
+
 async function getFeaturedProductsByCategory( {category} ){
     try {
         const {rows} = await client.query(`
-        SELECT products.*, ARRAY_AGG(tags.tag_name) AS tag_names, ARRAY_AGG(product_photos.url) AS photo_urls, categories.category_name
+        SELECT products.*, ARRAY_AGG(tags.tag_name) AS tag_names, ARRAY_AGG(product_photos.url) AS photo_urls, categories.category_name, review_aggregates.avg_rating
         FROM products
         LEFT JOIN product_tags ON products.id = product_tags.product_id
         LEFT JOIN tags ON product_tags.tag_id = tags.id
         LEFT JOIN product_photos ON products.id = product_photos.product_id
         LEFT JOIN categories ON products.category_id = categories.id
+        LEFT JOIN (
+            SELECT product_id, ROUND(AVG(rating), 1) AS avg_rating
+            FROM reviews
+            WHERE product_id IN (
+                SELECT products.id
+                FROM products
+                JOIN categories ON products.category_id = categories.id
+                WHERE products.isfeatured = true
+                AND categories.category_name = $1
+            )
+            GROUP BY product_id
+        ) AS review_aggregates ON products.id = review_aggregates.product_id
         WHERE products.isfeatured = true
         AND categories.category_name = $1
-        GROUP BY products.id, categories.category_name;
+        GROUP BY products.id, categories.category_name, review_aggregates.avg_rating
         `, [category]);
         return rows;
     } catch (error) {
@@ -83,18 +124,22 @@ async function getFeaturedProductsByCategory( {category} ){
     }
 }
 
-async function getFeaturedProductsByTag( {tag} ){
+async function getProductsByTag( {tag} ){
     try {
         const {rows} = await client.query(`
-        SELECT products.*, ARRAY_AGG(tags.tag_name) AS tag_names, ARRAY_AGG(product_photos.url) AS photo_urls, categories.category_name
-        FROM products
-        LEFT JOIN product_tags ON products.id = product_tags.product_id
-        LEFT JOIN tags ON product_tags.tag_id = tags.id
-        LEFT JOIN product_photos ON products.id = product_photos.product_id
-        LEFT JOIN categories ON products.category_id = categories.id
-        WHERE products.isfeatured = true
-        AND tags.tag_name = $1
-        GROUP BY products.id, categories.category_name;
+            SELECT products.*, ARRAY_AGG(tags.tag_name) AS tag_names, ARRAY_AGG(product_photos.url) AS photo_urls, categories.category_name, review_aggregates.avg_rating
+            FROM products
+            LEFT JOIN product_tags ON products.id = product_tags.product_id
+            LEFT JOIN tags ON product_tags.tag_id = tags.id
+            LEFT JOIN product_photos ON products.id = product_photos.product_id
+            LEFT JOIN categories ON products.category_id = categories.id
+            LEFT JOIN (
+                SELECT product_id, ROUND(AVG(rating), 1) AS avg_rating
+                FROM reviews
+                GROUP BY product_id
+            ) AS review_aggregates ON products.id = review_aggregates.product_id
+            WHERE tags.tag_name = $1
+            GROUP BY products.id, product_photos.url, categories.category_name, review_aggregates.avg_rating;  
         `, [tag]);
         return rows;
     } catch (error) {
@@ -140,6 +185,29 @@ async function createProductTag({ product_id, tag_id }) {
     }
 }
 
+async function getProductById(id){
+    try {
+        const {rows} = await client.query(`
+            SELECT products.*, ARRAY_AGG(tags.tag_name) AS tag_names, ARRAY_AGG(product_photos.url) AS photo_urls, categories.category_name, review_aggregates.avg_rating
+            FROM products
+            LEFT JOIN product_tags ON products.id = product_tags.product_id
+            LEFT JOIN tags ON product_tags.tag_id = tags.id
+            LEFT JOIN product_photos ON products.id = product_photos.product_id
+            LEFT JOIN categories ON products.category_id = categories.id
+            LEFT JOIN (
+                SELECT product_id, ROUND(AVG(rating), 1) AS avg_rating
+                FROM reviews
+                GROUP BY product_id
+            ) AS review_aggregates ON products.id = review_aggregates.product_id
+            WHERE products.id = $1
+            GROUP BY products.id, product_photos.url, categories.category_name, review_aggregates.avg_rating;   
+            `, [id]);
+        return rows;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     getAllProducts,
     createCategory,
@@ -149,5 +217,7 @@ module.exports = {
     getAllCategories,
     getFeaturedProducts,
     getFeaturedProductsByCategory,
-    getFeaturedProductsByTag
+    getProductsByTag,
+    getProductById,
+    getIdFromFeaturedProducts
 };

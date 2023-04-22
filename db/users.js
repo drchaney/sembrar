@@ -77,10 +77,24 @@ async function editReview({ review_id, review, rating }) {
     }
 }
 
-async function getReviewById(id){
+async function getReviewByProductId(product_id){
+    try {
+        const {rows} = await client.query(`
+            SELECT reviews.*, users.first_name, users.city, users.state
+            FROM reviews
+            JOIN users ON reviews.user_id = users.id
+            WHERE product_id = $1
+        `, [product_id]);
+        return rows;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function getReviewById({id}){
     try {
         const {rows: [review]} = await client.query(`
-            SELECT * FROM routines
+            SELECT * FROM reviews
             WHERE id = $1
         `, [id]);
         return review;
@@ -89,13 +103,13 @@ async function getReviewById(id){
     }
 }
 
-async function editUser({ user_id, first_name, last_name, email, address_line_1, address_line_2, city, state, zip, user_group, isActive }) {
+async function editUser({ id, first_name, last_name, email, address_line_1, address_line_2, city, state, zip, user_group, isActive }) {
     try {
         const {rows: [editUser]} = await client.query(`
             UPDATE users
             SET first_name = $2, last_name = $3, email = $4, address_line_1 = $5, address_line_2 = $6, city = $7, state = $8, zip = $9, user_group = $10, isActive = $11
             WHERE id = $1
-        `, [user_id, first_name, last_name, email, address_line_1, address_line_2, city, state, zip, user_group, isActive]);
+        `, [id, first_name, last_name, email, address_line_1, address_line_2, city, state, zip, user_group, isActive]);
         return editUser;
     } catch (error) {
         throw error;
@@ -121,6 +135,7 @@ module.exports = {
     loginUser,
     editReview,
     getReviewById,
+    getReviewByProductId,
     editUser,
     getUserById
 };

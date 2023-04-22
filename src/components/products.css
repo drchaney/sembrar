@@ -2,13 +2,6 @@
     padding-bottom: 15px;
 }
 
-.product-tag{
-    border: 1px solid lightgreen;
-    background-color: rgba(22, 56, 22, 0.75);
-    box-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
-    transition: 0.25s
-}
-
 .product-card{
     background-position: center;
     background-repeat: no-repeat;
@@ -18,8 +11,93 @@
     transition: 0.3s;
 }
 
+.product-tag{
+    border: 1px solid lightgreen;
+    background-color: rgba(22, 56, 22, 0.75);
+    box-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+    margin-top: 5px;
+    margin-bottom: 160px;
+    transition: 0.25s;
+    border-radius: 5px;
+    padding: 1px;
+}
+
 .product-card:hover {
     outline:5px solid lime;
     outline-offset: 4px;
     border: 1px solid green;
+}
+
+.add-to-cart{
+    width: 65%;
+}
+
+.add-to-cart button{
+    box-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+}
+
+.add-to-cart input{
+    text-align: center;
+    background-color: rgba(13, 13, 13, 0.8);
+    box-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+    color: white;
+    font-weight: bold;
+    border: 0;
+}
+
+#cart-button-right {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 5px;
+}
+
+#cart-button-left {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 5px;
+}
+
+.price-tag{
+    font-size: 2em;
+    background-color: rgba(13, 13, 13, 0.5);
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    box-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+    color: white;
+}
+
+.product-links{
+    text-decoration: none;
+}
+
+.add-2-cart{
+    width: 25%;
+}
+
+.add-2-cart button{
+    box-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+}
+
+.add-2-cart input{
+    text-align: center;
+    background-color: rgba(13, 13, 13, 0.8);
+    box-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+    color: white;
+    font-weight: bold;
+    border: 0;
+}
+
+.add-3-cart{
+    width: 75%;
+}
+
+.add-3-cart button{
+    box-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+}
+
+.add-3-cart input{
+    text-align: center;
+    background-color: rgba(13, 13, 13, 0.8);
+    box-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+    color: white;
+    font-weight: bold;
+    border: 0;
 }

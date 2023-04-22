@@ -2,7 +2,7 @@ const express = require('express');
 const usersRouter = express.Router();
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET
-const { createUser, checkUserByEmail, loginUser, editUser, getUserById, editReview, getReviewById } = require('../db');
+const { createUser, checkUserByEmail, loginUser, editUser, getUserById, editReview, getReviewById, getReviewByProductId } = require('../db');
 const { requireUser } = require('./utils');
 
 // GET /api/users/me
@@ -97,7 +97,7 @@ usersRouter.post('/login', async (req, res, next) => {
 usersRouter.post('/reviews/:reviewId', async (req, res, next) => {
     try {
         const { review, rating  } = req.body;
-        const { reviewId } = req.params;
+        const { reviewId } = req.params.reviewId;
         const reviewToEdit = await getReviewById(reviewId);
 
         if(!reviewToEdit) {
@@ -127,8 +127,28 @@ usersRouter.post('/reviews/:reviewId', async (req, res, next) => {
     }
 });
 
+// GET /api/users/reviews/product/:productId
+usersRouter.get('/reviews/product/:productId', async (req, res, next) => {
+    try {
+        const { productId } = req.params;
+        const productReviews = await getReviewByProductId(productId);
+
+        if(!productReviews) {
+            next({
+                name: 'ProductReviewsNotFoundError',
+                message: `Product ID ${productId} was not found`
+            })
+        } else {
+            res.send(productReviews);
+        }
+    } catch (error) {
+        next(error);
+    }
+});
+
+
 // POST /api/users/:userId
-usersRouter.post('/users/:reviewId', async (req, res, next) => {
+usersRouter.patch('/users/:Id', async (req, res, next) => {
     try {
         const { first_name, last_name, email, address_line_1, address_line_2, city, state, zip, user_group, isActive } = req.body;
         const { userId } = req.params;
@@ -146,7 +166,7 @@ usersRouter.post('/users/:reviewId', async (req, res, next) => {
                     message: `User ${req.user} is unable to edit this profile`
             });
           } else {
-            const updatedUser = await editUser(userToEdit.id, first_name, last_name, email, address_line_1, address_line_2, city, state, zip, user_group, isActive);
+            const updatedUser = await editUser(id, first_name, last_name, email, address_line_1, address_line_2, city, state, zip, user_group, isActive);
             if(updatedReview) {
               res.send(updatedReview);
             } else {
