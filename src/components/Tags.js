@@ -9,7 +9,7 @@ export default function Tags({tag}){
     useEffect(()=>{
         async function getProductsByTag() {
             const item = urlTag || tag
-            const URL = "http://localhost:4000/api/products/featured/tag/" + item;
+            const URL = "http://localhost:4000/api/products/tag/" + item;
             try {
                 const response = await fetch(URL)
                 const results = await response.json();
@@ -35,7 +35,7 @@ export default function Tags({tag}){
             <div className="container text-center">
                 <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     {   
-                        products.map((product) => {
+                        products?.map((product) => {
                             return(
                                 <div className="col" key={product.id}>
                                     <div 

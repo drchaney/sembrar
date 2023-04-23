@@ -197,8 +197,8 @@ async function getProductById(id){
             JOIN tags ON product_tags.tag_id = tags.id
             JOIN product_photos ON products.id = product_photos.product_id
             JOIN categories ON products.category_id = categories.id
-            JOIN reviews ON products.id = reviews.product_id
-            JOIN (
+            LEFT JOIN reviews ON products.id = reviews.product_id
+            LEFT JOIN (
                 SELECT product_id, ROUND(AVG(rating), 1) AS avg_rating
                 FROM reviews
                 GROUP BY product_id

@@ -95,7 +95,7 @@ export default function Item({id}) {
         return [stars]
     }
     return (
-        <div>
+        <div className="">
             {
                 product?.map((item) => {
                     return(
@@ -107,7 +107,7 @@ export default function Item({id}) {
                                     <li className="breadcrumb-item active" aria-current="page">{item.product_name}</li>
                                 </ol>
                             </nav>
-                            <div className="container">
+                            <div className="item-frame">
                                 <div className="row">
                                     <div className="col">
                                         <img src={activePhoto} className="rounded mx-auto d-block" alt={item.product_name}/>
@@ -180,6 +180,8 @@ export default function Item({id}) {
                                     </div>
                                 </div>
                             </div>
+                            <h2 className="container" >Similar to {item.product_name} because they are also {item.tag_names[0]}:</h2>
+                            <Tags tag={item.tag_names[0]}/>
                         </div>
                     )
                 })
@@ -188,102 +190,4 @@ export default function Item({id}) {
     )
 }
 
-// {
-//                 product?.map((item) => {
-//                     return(
-//                         <div key={item.id}>
-//                             <div className="container item-container">
-//                                 <div className="row">
-//                                     <div className="col"><h1>{item.product_name}</h1></div>
-//                                 </div>
-//                                 <div className="row">
-//                                     <div className="col">
-//                                         {
-//                                             item.photo_urls.map((pic, index) => {
-//                                                 return(
-//                                                     <div key={index} className="container">
-//                                                         <div className="row">
-//                                                             <div className="col pic-preview-container">
-//                                                                 <div className="pic-preview" style = {{ backgroundImage: `url(${pic})`}}></div>
-//                                                             </div>
-//                                                         </div><br/>
-//                                                     </div>
-//                                                 )
-//                                             })
-//                                         }
-//                                     </div>
-//                                     <div className="col"><img src={item.photo_urls[0]} alt="pic of {item.product_name}"/>
-//                                         <div className="row">
-//                                             <div className="col short-desc">{item.short_desc} <img className="star text-top" src={greenStar} alt="rating out of 5 stars"/>{item.avg_rating}</div>
-//                                         </div>
-//                                         <div className="row">
-//                                             <div className="col">
-//                                                 <div className="add-3-cart container">
-//                                                     <div className="price-tag">${item.price}</div>
-//                                                     <form className="input-group" onSubmit={handleSubmit}>
-//                                                         <button id="cart-button-left" className="btn btn-secondary" type="button">-</button>
-//                                                         <input type="text" className="form-control"  onChange={handleQty} value={qty}/>
-//                                                         <button className="btn btn-secondary" type="button">+</button>
-//                                                         <button id="cart-button-right" className="btn btn-success" type="button">Add to Cart</button>
-//                                                     </form>
-//                                                 </div>
-//                                             </div>
-//                                         </div>
-//                                     </div>
-//                                     <div className="col long-desc">{item.long_desc}
-                                    
-3//                                         <div className="row review-list-container">
-//                                             <div className="col review-list">
-//                                                 <Reviews id={item.id}/>
-//                                             </div>
-//                                         </div>
-//                                         <div className="container text-center m-3">
-//                                             <button className="btn btn-success" type="submit">Add / Edit Review</button>
-//                                         </div>
-
-//                                     </div>
-//                                 </div>
-
-//                             </div>
-//                             <h2>Similar to {item.product_name} because they are also {item.tag_names[0]}:</h2>
-//                             <Tags tag={item.tag_names[0]}/>
-//                         </div>
-//                     )
-//                 })
-//             }
-//         </>
-//     )
-// }
-
-                /* product?.map((item) => {
-                    return(
-                        <div key={item.id}>
-                        <h1>Name: {item.product_name}</h1>
                             
-                            <ul>
-                                <li>Item ID: {item.id}</li>    
-                                <li>Short Desc: {item.short_desc}</li>
-                                <li>Long Desc: {item.long_desc}</li>
-                                <li>Cat ID: {item.category_id}</li>
-                                <li>Cat: {item.category_name}</li>
-                                <li>Price: {item.price}</li>
-                                {
-                                    item.tag_names.map((tag, index) => {
-                                        return(
-                                            <li key={index}>Tag: {tag}</li>
-                                        )
-                                    })
-                                }
-                                {
-                                    item.photo_urls.map((pic, index) => {
-                                        return(
-                                            <li key={index}>Pic URL: {pic}</li>
-                                        )
-                                    })
-                                }
-                                <li>Rating: {item.avg_rating}</li>
-
-                            </ul>
-                        </div>
-                    )
-                }) */
