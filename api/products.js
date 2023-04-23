@@ -49,8 +49,8 @@ productsRouter.get('/featured/:category', async (req, res, next) => {
     }
 });
 
-// GET /api/products/featured/tag/:tag
-productsRouter.get('/featured/tag/:tag', async (req, res, next) => {
+// GET /api/products/tag/:tag
+productsRouter.get('/tag/:tag', async (req, res, next) => {
     try {
         const products = await getProductsByTag({tag: req.params.tag});
         if(products.length>0) {

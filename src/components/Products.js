@@ -83,9 +83,9 @@ export default function Products() {
                 <div className="container text-center">
                     <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                         {   
-                            products.map((product) => {
+                            products.map((product, index) => {
                                 return(
-                                    <div className="col" key={product.id}>
+                                    <div className="col" key={index + product.id + index}>
                                         <Link to={`/item/${product.id}`} className="product-links">
                                             <div 
                                                 className="product-card card card-cover h-100 overflow-hidden text-bg-dark"
@@ -96,9 +96,9 @@ export default function Products() {
                                                 </div>
                                                 <ul className="d-flex list-unstyled mt-auto">
                                                     {
-                                                        product.tag_names.map((tag) => {
+                                                        product.tag_names.map((tag, index) => {
                                                             return(
-                                                                <li className="m-2 product-tag" key={product.id + tag}>{tag}</li>
+                                                                <li className="m-2 product-tag" key={product.id + tag + index + tag}>{tag}</li>
                                                             )
                                                         })
                                                     }

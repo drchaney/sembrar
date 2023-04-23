@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react"
 import { Route, Routes } from "react-router-dom"
-import { Navbar, Menu, Products, Home, Item, Footer } from "./components/"
+import { Navbar, Menu, Products, Home, Item, Footer, Cart } from "./components/"
 import "./App.css"
 
 export default function App() {
     const [navHover, setNavHover] = useState('')
     const [token, setToken] = useState('')
     const [email, setEmail] = useState('')
+    const [cartId, setCartId] = useState('')
     
     useEffect(()=>{
         let savedToken = localStorage.getItem("token")
@@ -27,6 +28,7 @@ export default function App() {
                 <Route path="/" element={<Home/>}/>
                 <Route path="products/:category" element={<Products/>}/>
                 <Route path="/item/:itemId" element={<Item/>}/>
+                <Route path="/cart/" element={<Cart cartId={cartId}/>}/>
             </Routes>
             <Footer/>
         </>

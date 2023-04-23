@@ -10,11 +10,11 @@ export default function Header({category}) {
         <>
             <div className="header-image">
             {
-                category=="outdoor garden" ? <img src={og} alt="outdoor garden header"/>:
-                category=="indoor plants" ? <img src={indoor} alt="indoor plants header"/>:
-                category=="fruits and vegetables" ? <img src={veggies} alt="fruits and vegetables header"/>:
-                category=="herbs" ? <img src={herbs} alt="herbs header"/>:
-                category=="supplies" ? <img src={supplies} alt="supplies header"/>:<img src={misc} alt="supplies header"/>
+                category=="outdoor garden" ? <img src={og} alt="outdoor garden header" className="img-fluid"/>:
+                category=="indoor plants" ? <img src={indoor} alt="indoor plants header" className="img-fluid"/>:
+                category=="fruits and vegetables" ? <img src={veggies} alt="fruits and vegetables header" className="img-fluid"/>:
+                category=="herbs" ? <img src={herbs} alt="herbs header" className="img-fluid"/>:
+                category=="supplies" ? <img src={supplies} alt="supplies header"/>:<img src={misc} alt="supplies header" className="img-fluid"/>
             }
             </div>
         </>

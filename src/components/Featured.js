@@ -49,9 +49,9 @@ export default function Featured({navHover}){
                                         <ul className="d-flex list-unstyled mt-auto">
                                         <li className="feat-tag d-flex align-items-center me-2"><img className="star" src={star} alt="rating out of 5 stars"/>{category.avg_rating}</li>
                                             {
-                                                category.tag_names.map((tag) => {
+                                                category.tag_names.map((tag, index) => {
                                                     return(
-                                                        <li className="ms-2 me-auto feat-tag" key={category.id + tag}>{tag}</li>
+                                                        <li className="ms-2 me-auto feat-tag" key={tag+index}>{tag}</li>
                                                     )
                                                 })
                                         

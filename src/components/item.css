@@ -42,22 +42,22 @@
 }
 
 .review-list-container{
-    border: 1px solid darkgreen;
+    border: 1px solid gray;
     border-radius: 5px;
-    height: 130px;
-    
-    margin: 5px;
+    height: 160px;
+    margin: 2px;
     box-shadow: 1px 1px 1px rgba(13, 13, 13, 0.5);
-    background-color: darkgreen;
+    background-color: gray;
 }
 
 .review-list{
-    margin: 5px;
+    padding: 5px;
+    margin: 2px;
     overflow-y: scroll;
-    height: 120px;
-    border: 1px solid green;
+    height: 156px;
+    border: 1px solid gray;
     border-radius: 5px;
-    background-color: rgba(255,255,255,.8)
+    background-color: rgb(255,255,255)
 }
 
 .first-name{
@@ -65,8 +65,7 @@
 }
 
 .city-state{
-    font-style: italic;
-    font-weight: bolder;
+    
 }
 
 .review-string-1{
@@ -76,4 +75,48 @@
 .review-string-2{
     font-weight: 400;
     font-style: italic;
+}
+
+.review-link{
+    text-decoration: none;
+    color: green;
+}
+
+#qty-input{
+    width: 250px;
+    --bs-focus-ring-color: rgba(var(--bs-success-rgb), .75);
+}
+
+#qty-input input{
+    text-align: center;
+}
+
+#no-decoration{
+    text-decoration: none;
+}
+
+.tab-box{
+    border-left: 1px solid #cdcdcd;
+    border-bottom: 1px solid #cdcdcd;
+    border-right: 1px solid #cdcdcd;
+}
+
+.thumby{
+    height: 150px;
+    width: 150px;
+    margin: 5px;
+    padding: 5px;
+    box-shadow: 1px 1px 1px rgba(13, 13, 13, 0.5);
+}
+
+.circle{
+    background: #e3e3e3;
+    border-radius: 50%;
+    color: #6e6e6e;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 40px;
+    margin-right: 5px;
+    text-align: center;
+    width: 40px;
 }

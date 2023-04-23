@@ -1,11 +1,23 @@
 const client = require('./client');
 
-async function addToCart({ user_id, product_id, qty }) {
+async function createCart( {user_id, isActive}){
+    try{
+        const {rows: [cart]} = await client.query(`
+            INSERT INTO carts(user_id, isActive) VALUES ($1, $2)
+            RETURNING id, user_id, isActive 
+        `, [user_id, isActive]);
+        return cart;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function addToCart({ cart_id, product_id, qty }) {
     try {
         const {rows: [line]} = await client.query(`
-            INSERT INTO cart_lines(user_id, product_id, qty) VALUES ($1, $2, $3)
-            RETURNING id, user_id, product_id, qty
-        `, [user_id, product_id, qty]);
+            INSERT INTO cart_lines(cart_id, product_id, qty) VALUES ($1, $2, $3)
+            RETURNING id, cart_id, product_id, qty
+        `, [cart_id, product_id, qty]);
         return line;
     } catch (error) {
         throw error;
@@ -60,7 +72,8 @@ module.exports = {
     getCartByUserId,
     addToCart,
     getOrdersByUserId,
-    createOrder
+    createOrder,
+    createCart
 };
 
 

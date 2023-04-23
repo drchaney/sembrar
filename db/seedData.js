@@ -1,5 +1,5 @@
 const client = require('./client');
-const { createCategory, createTag, createProductTag, createReview, createPromoCode, addToCart } = require('./')
+const { createCategory, createTag, createProductTag, createPromoCode, addToCart, createCart } = require('./')
 
 async function dropTables() {
     console.log('Dropping All Tables...');
@@ -17,6 +17,7 @@ async function dropTables() {
         DROP TABLE IF EXISTS promo_codes;
         DROP TABLE IF EXISTS carts;
         DROP TABLE IF EXISTS articles;
+        DROP TABLE IF EXISTS carts;
         DROP TABLE IF EXISTS users;
     `)
     } catch (error) {
@@ -78,7 +79,7 @@ async function createTables() {
                 isActive BOOLEAN NOT NULL DEFAULT TRUE
               );
 
-            CREATE TABLE reviews (
+              CREATE TABLE reviews (
                 id SERIAL PRIMARY KEY,
                 product_id INT NOT NULL REFERENCES products(id),
                 user_id INT NOT NULL REFERENCES users(id),
@@ -121,12 +122,17 @@ async function createTables() {
                 line_status INT NOT NULL DEFAULT 1
             );
 
-            CREATE TABLE cart_lines (
+            CREATE TABLE carts (
                 id SERIAL PRIMARY KEY,
                 user_id INT NOT NULL REFERENCES users(id),
+                isActive BOOLEAN NOT NULL
+            );
+
+            CREATE TABLE cart_lines (
+                id SERIAL PRIMARY KEY,
+                cart_id INT NOT NULL REFERENCES carts(id),
                 product_id INT NOT NULL REFERENCES products(id),
-                qty INT NOT NULL,
-                UNIQUE ("user_id", "product_id")
+                qty INT NOT NULL
             );
 
             CREATE TABLE articles (
@@ -157,7 +163,7 @@ async function createInitialCategories() {
             { category: 'indoor plants'},
             { category: 'fruits and vegetables'},
             { category: 'herbs'},
-            { category: 'supplies'}
+            { category: 'supplies'},
         ]
         const categories = await Promise.all(categoriesToCreate.map(createCategory));
     
@@ -215,7 +221,7 @@ async function createInitialProductTags() {
     console.log('Starting to create two product_tags for each product...');
     try {
         let productTagsToCreate = [];
-        for (let i = 1; i < 139; i++){
+        for (let i = 1; i < 142; i++){
             let x = Math.floor(Math.random() * 8) + 1;
             let newTag = {product_id: i, tag_id: x};
             productTagsToCreate.push(newTag);
@@ -339,18 +345,44 @@ async function createInitialOrderLines() {
     }
 }
 
+async function createInitialCarts(){
+    console.log("Starting to create carts...");
+    try{
+        const cartsToCreate = [
+            { user_id: 10, isActive: "true"},
+            { user_id: 11, isActive: "true"},
+            { user_id: 12, isActive: "true"},
+            { user_id: 13, isActive: "true"},
+            { user_id: 14, isActive: "true"},
+            { user_id: 15, isActive: "true"},
+            { user_id: 16, isActive: "true"},
+            { user_id: 17, isActive: "true"},
+            { user_id: 18, isActive: "true"},
+            { user_id: 19, isActive: "true"},
+            { user_id: 20, isActive: "true"},
+        ]
+        const carts = await Promise.all(cartsToCreate.map(createCart));
+        console.log('carts created:');
+        console.log(carts);
+        console.log('Finished creating carts!');
+    } catch (error) {
+        console.error('Error creating carts!');
+        throw error;
+    }
+}
+
 async function createInitialCartLines() {
     console.log ('Starting to create cart_lines...');
     try {
         const cartLinesToCreate = [
-            { user_id: 3, product_id: 1, qty: 1},
-            { user_id: 4, product_id: 1, qty: 2},
-            { user_id: 3, product_id: 2, qty: 1},
-            { user_id: 4, product_id: 2, qty: 2},
-            { user_id: 3, product_id: 3, qty: 10},
-            { user_id: 4, product_id: 3, qty: 20},
-            { user_id: 5, product_id: 3, qty: 1},
-            { user_id: 6, product_id: 4, qty: 1},
+            { cart_id: 3, product_id: 1, qty: 1},
+            { cart_id: 4, product_id: 1, qty: 2},
+            { cart_id: 3, product_id: 2, qty: 1},
+            { cart_id: 4, product_id: 2, qty: 2},
+            { cart_id: 3, product_id: 3, qty: 10},
+            { cart_id: 4, product_id: 3, qty: 20},
+            { cart_id: 5, product_id: 3, qty: 1},
+            { cart_id: 6, product_id: 4, qty: 1},
         ]
         const cartLines = await Promise.all(cartLinesToCreate.map(addToCart));
         console.log('cart_lines created:');
@@ -394,6 +426,7 @@ async function rebuildDB() {
         await createInitialPromoCodes();
         await createInitialOrders();
         await createInitialOrderLines();
+        await createInitialCarts();
         await createInitialCartLines();
         await createInitialArticles();
     } catch (error) {
