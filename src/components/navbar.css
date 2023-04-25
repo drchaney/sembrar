@@ -44,7 +44,6 @@
     text-shadow: 0px 0px 0px rgba(13, 13, 13, 0.5);
 }
 
-
 .icon-spacer{
     padding: 5px;
     color: darkgreen;
@@ -52,4 +51,80 @@
 
 .hide-words{
     opacity: 0.0;
+}
+
+.login-button{
+    width: 100%;
+}
+
+.cart-menu{
+
+}
+
+.green-text{
+    color: darkgreen;
+}
+
+.account-menu{
+    position: fixed;
+    margin-left: 70%;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+    z-index: 10;
+}
+
+.login-dropdown{
+    width: 90%;
+}
+
+.video-over{
+    position: fixed;
+    top: 0;
+    padding-top: 100px;
+    left: 0;
+    border-bottom: 1px solid darkgreen;
+    width: 100vw;
+    height: 500px;
+    background-color: white;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+    transform: translateY(-100%);
+    animation: move .25s ease-out forwards;
+    z-index: 10;
+    background-image: url("../assets/leaf.png");
+    background-position:left;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+  
+@keyframes move {
+    0% {
+        top: -500;
+    }
+    100% {
+        top: 0;
+        transform: translateY(0%);
+    }
+}
+
+.login-popup-wrapper{
+
+}
+
+.login-popup-sub-wrapper{
+
+}
+
+.close-button{
+    text-align: right;
+    margin: 5px;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.text-red{
+    color: red;
+    font-weight: bold;
 }

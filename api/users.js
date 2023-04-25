@@ -29,6 +29,7 @@ usersRouter.get('/', async (req, res, next) => {
 usersRouter.post('/register', async (req, res, next) => {
     try {
         const {email, password} = req.body
+        const user_group = 1;
         const isUser = await checkUserByEmail(email)
         if (isUser) {
             next({
@@ -53,7 +54,7 @@ usersRouter.post('/register', async (req, res, next) => {
                     message: 'Registration unsuccessful. Please try again.',
             });
             } else {
-                const token = jwt.sign({id: user.id, email: user.email}, JWT_SECRET, { expiresIn: '1w' });
+                const token = jwt.sign({id: user.id, email: user.email, user_group: 1}, JWT_SECRET, { expiresIn: '1w' });
                 res.send({ user, message: "Welcome to Sembrar!  You registered successfully!", token });
             }
         } 
@@ -81,7 +82,7 @@ usersRouter.post('/login', async (req, res, next) => {
                 message: 'Username or password is incorrect',
             })
         } else {
-            const token = jwt.sign({id: user.id, email: user.email}, JWT_SECRET, { expiresIn: '1w' });
+            const token = jwt.sign({id: user.id, email: user.email, user_group: user.user_group}, JWT_SECRET, { expiresIn: '1w' });
             res.send({ 
                 user, 
                 message: "you're logged in!",

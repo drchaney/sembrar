@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import star from "../assets/star.png"
 
 export default function Tags({tag}){
@@ -38,26 +39,28 @@ export default function Tags({tag}){
                         products?.map((product) => {
                             return(
                                 <div className="col" key={product.id}>
-                                    <div 
-                                        className="feat-card card card-cover h-100 overflow-hidden text-bg-dark rounded-2"
-                                        style = {{ backgroundImage: `url(${product.photo_urls[0]})`}}>
-                                        
-                                        <div className="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                                            <h3 className="feat-tag mt-5 mb-4 display-6 fw-bold">{product.product_name}</h3>
+                                    <Link to={`/item/${product.id}`} className="product-links">
+                                        <div 
+                                            className="feat-card card card-cover h-100 overflow-hidden text-bg-dark rounded-2"
+                                            style = {{ backgroundImage: `url(${product.photo_urls[0]})`}}>
+                                            
+                                            <div className="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                                                <h3 className="feat-tag mt-5 mb-4 display-6 fw-bold">{product.product_name}</h3>
+                                            </div>
+                                            <ul className="d-flex list-unstyled mt-auto">
+                                            <li className="feat-tag d-flex align-items-center me-2"><img className="star" src={star} alt="rating out of 5 stars"/>{product.avg_rating}</li>
+                                                {
+                                                    product.tag_names.map((tag) => {
+                                                        return(
+                                                            <li className="ms-2 me-auto feat-tag" key={product.id + tag}>{tag}</li>
+                                                        )
+                                                    })
+                                            
+                                                }
+                                            <li className="feat-tag d-flex align-items-center me-2">${product.price}</li>
+                                            </ul>
                                         </div>
-                                        <ul className="d-flex list-unstyled mt-auto">
-                                        <li className="feat-tag d-flex align-items-center me-2"><img className="star" src={star} alt="rating out of 5 stars"/>{product.avg_rating}</li>
-                                            {
-                                                product.tag_names.map((tag) => {
-                                                    return(
-                                                        <li className="ms-2 me-auto feat-tag" key={product.id + tag}>{tag}</li>
-                                                    )
-                                                })
-                                        
-                                            }
-                                        <li className="feat-tag d-flex align-items-center me-2">${product.price}</li>
-                                        </ul>
-                                    </div>
+                                    </Link>
                                 </div>
                             )
                         })

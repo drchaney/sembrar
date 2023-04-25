@@ -27,7 +27,7 @@ export default function Item({id}) {
             }
         }
         getProductById();
-    },[])
+    },[itemId])
 
     const thumbHandler = (event) => {
         setActivePhoto(event.target.currentSrc)
@@ -61,7 +61,7 @@ export default function Item({id}) {
             }
         }
         getReviewsById();
-    },[])
+    },[itemId])
 
     const tabHandler = (event) => {
         setTab(event.target.innerText);

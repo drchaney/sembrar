@@ -14,7 +14,7 @@ export default function Header({category}) {
                 category=="indoor plants" ? <img src={indoor} alt="indoor plants header" className="img-fluid"/>:
                 category=="fruits and vegetables" ? <img src={veggies} alt="fruits and vegetables header" className="img-fluid"/>:
                 category=="herbs" ? <img src={herbs} alt="herbs header" className="img-fluid"/>:
-                category=="supplies" ? <img src={supplies} alt="supplies header"/>:<img src={misc} alt="supplies header" className="img-fluid"/>
+                category=="supplies" ? <img src={supplies} alt="supplies header"/>:<img src={misc} alt="search response header" className="img-fluid"/>
             }
             </div>
         </>

@@ -12,3 +12,4 @@ export {default as Tags} from "./Tags";
 export {default as Reviews} from "./Reviews"
 export {default as Cart} from "./Cart"
 export {default as Add} from "./Add"
+export {default as Register} from "./Register"
