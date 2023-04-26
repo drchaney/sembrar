@@ -27,11 +27,25 @@ async function addToCart({ cart_id, product_id, qty }) {
 async function getCartByUserId( {user_id} ){
     try {
         const {rows} = await client.query(`
-        SELECT cart_lines.user_id, products.product_name, products.price, product_photos.url
-        FROM cart_lines
-        JOIN products ON cart_lines.product_id = products.id
+        SELECT DISTINCT ON (cart_lines.product_id) carts.user_id, cart_lines.cart_id, cart_lines.product_id, cart_lines.qty, products.product_name, products.price, products.qoh, product_photos.url
+        FROM carts
+        LEFT JOIN cart_lines ON carts.id = cart_lines.cart_id
+        LEFT JOIN products ON cart_lines.product_id = products.id
         JOIN product_photos ON products.id = product_photos.product_id
-        WHERE cart_lines.user_id = $1;
+        WHERE carts.user_id = $1
+        `, [user_id]);
+        return rows;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function getCartIdByUserId( {user_id} ){
+    try {
+        const {rows} = await client.query(`
+        SELECT id AS cart_id
+        FROM carts
+        WHERE carts.user_id = $1
         `, [user_id]);
         return rows;
     } catch (error) {
@@ -73,7 +87,9 @@ module.exports = {
     addToCart,
     getOrdersByUserId,
     createOrder,
-    createCart
+    createCart,
+    getCartIdByUserId
 };
+
 
 

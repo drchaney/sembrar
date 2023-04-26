@@ -58,7 +58,12 @@
 }
 
 .cart-menu{
-
+    position: fixed;
+    margin-left: 70%;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+    z-index: 10;
 }
 
 .green-text{

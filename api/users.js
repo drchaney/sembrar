@@ -8,7 +8,8 @@ const { requireUser } = require('./utils');
 // GET /api/users/me
 usersRouter.get('/me', requireUser, async (req, res, next) => {
     try {
-        res.send(req.user.email);
+        const { id, email, first_name, user_group } = req.user;
+        res.send({user_id:id, email, first_name, user_group});
     } catch (error) {
         next(error)
     }

@@ -4,7 +4,7 @@ import { Tags, Reviews } from "./"
 import "./item.css"
 import greenStar from "../assets/greenstar.png"
 
-export default function Item({id}) {
+export default function Item({id, token, userId, setBasket, basket}) {
     const {itemId} = useParams();
     const [product, setProduct] = useState([])
     const [qty, setQty] = useState(1)
@@ -67,22 +67,35 @@ export default function Item({id}) {
         setTab(event.target.innerText);
     }
 
-    async function handleSubmit(event) {
-        try {
-            // const URL = "http://localhost:4000/api/users/login"
-            // const response = await fetch(URL, {
-            //     method: "POST",
-            //     ContentType: "application/jason",
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({
-            //         email: email,
-            //         password: password
-            //     })
-            console.log("click")
-        } catch (error){
-            console.error ("There was an error: ", error);
+    async function handleAddToCart(event) {
+        event.preventDefault();
+        let cart_line = {itemId, qty}
+        let cart = [];
+        cart.push(cart_line)
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        if (token){
+            try {
+                const URL = "http://localhost:4000/api/orders/add2cart"
+                const bearer = 'Bearer ' + token;
+                console.log(userId, itemId, qty)
+                const response = await fetch(URL, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': bearer
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        product_id: itemId,
+                        qty: qty
+                        })
+                    })
+                const result = await response.json()
+                console.log(result)
+            } catch (error){
+                console.error ("There was an error: ", error);
+            }
         }
     }
 
@@ -94,12 +107,13 @@ export default function Item({id}) {
         }
         return [stars]
     }
+
     return (
         <div className="">
             {
                 product?.map((item) => {
                     return(
-                        <div key={item.id}>             
+                        <div key={item.id} className="container">             
                             <nav aria-label="breadcrumb">
                                 <ol className="breadcrumb text-capitalize p-3 mb-2 bg-secondary-subtle text-emphasis-secondary">
                                     <li className="breadcrumb-item"><a href="/">Home</a></li>
@@ -127,11 +141,11 @@ export default function Item({id}) {
                                         <h2 className="my-3">${item.price}</h2>
                                         <hr/>
                                         <div id="qty-input">
-                                            <form className="input-group" onSubmit={handleSubmit}>
+                                            <form className="input-group" onSubmit={handleAddToCart}>
                                                 <button className="btn btn-secondary" type="button" onClick={handleQtyDown}>-</button>
                                                 <input type="text" className="form-control d-inline-flex focus-ring py-1 px-2 text-decoration-none border" onChange={handleQty} value={qty}/>
                                                 <button className="btn btn-secondary" type="button" onClick={handleQtyUp}>+</button>
-                                                <button className="btn btn-success" type="button">Add to Cart</button>
+                                                <button className="btn btn-success" type="submit">Add to Cart</button>
                                             </form>
                                         </div>
                                             {

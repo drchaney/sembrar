@@ -6,7 +6,7 @@ import seed1 from "../assets/seed1.png"
 import seed2 from "../assets/seed2.png"
 import seed3 from "../assets/seed3.png"
 
-export default function Home(){    
+export default function Home({token}){    
     const [story, setStory] = useState([])
     const [product, setProduct] = useState("")
 
@@ -83,7 +83,7 @@ export default function Home(){
                 product?
                     <>
                         <h2 className="cat-tag text-start">Featured Product:</h2>
-                        <Item id={product}/>
+                        <Item id={product} token={token}/>
                     </>:null
             }
             </div>

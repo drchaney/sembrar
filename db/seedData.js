@@ -110,7 +110,7 @@ async function createTables() {
                 city VARCHAR(255) NOT NULL,
                 state VARCHAR(255) NOT NULL,
                 zip VARCHAR(255) NOT NULL,
-                promo_code_id INT REFERENCES promo_codes (id)
+                promo_code_id INT REFERENCES promo_codes(id)
             );
 
             CREATE TABLE order_lines (
@@ -124,8 +124,8 @@ async function createTables() {
 
             CREATE TABLE carts (
                 id SERIAL PRIMARY KEY,
-                user_id INT NOT NULL REFERENCES users(id),
-                isActive BOOLEAN NOT NULL
+                user_id INT REFERENCES users(id),
+                isActive BOOLEAN NOT NULL DEFAULT TRUE
             );
 
             CREATE TABLE cart_lines (
@@ -143,7 +143,7 @@ async function createTables() {
                 start_date DATE,
                 end_date DATE,
                 isActive boolean NOT NULL,
-                author INT NOT NULL REFERENCES users (id)
+                author INT NOT NULL REFERENCES users(id)
             );
         `)
 

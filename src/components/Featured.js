@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import star from "../assets/star.png"
 
-export default function Featured({navHover, setNavHover}){ 
+export default function Featured({navHover, setNavHover, token}){ 
     const [categories, setCategories] = useState([]);
 
     useEffect(()=>{
@@ -44,7 +44,7 @@ export default function Featured({navHover, setNavHover}){
                         categories.map((category) => {
                             return(
                                 <div className="col" key={category.id}>
-                                    <Link to={`/item/${category.id}`} onClick={handleMouseClick} className="product-links">
+                                    <Link to={`/item/${category.id}`} token={token} onClick={handleMouseClick} className="product-links">
                                         <div 
                                             className="feat-card card card-cover h-100 overflow-hidden text-bg-dark rounded-2"
                                             style = {{ backgroundImage: `url(${category.photo_urls[0]})`}}>

@@ -15,7 +15,7 @@ router.get('/health', async (req, res, next) => {
     res.status(200).send(twoCents)
 });
 
-
+// Validate, and set "req.user" for logged in actions
 router.use(async (req, res, next) => {
     const prefix = 'Bearer ';
     const auth = req.header('Authorization');
@@ -27,7 +27,6 @@ router.use(async (req, res, next) => {
     
         try {
             const parsedToken = jwt.verify(token, JWT_SECRET);   
-            console.log ("parsedToken: ", parsedToken)
         
             const id = parsedToken && parsedToken.id
             if (id) {

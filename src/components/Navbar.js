@@ -4,7 +4,7 @@ import { DateTime } from "luxon";
 import logo from "../assets/logo.png"
 import "./navbar.css"
 
-export default function Navbar({setNavHover}){    
+export default function Navbar({setNavHover, userId}){    
     const [sale, setSale] = useState([])
     const [salesExpirationDate, setSalesExpirationDate] = useState("")
     const [categories, setCategories] = useState([])
@@ -99,7 +99,7 @@ export default function Navbar({setNavHover}){
 
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li><i className="bi bi-person-circle icon-spacer" onMouseOver={handleMouseOver}><span className="hide-words">account</span></i></li>
-                            <li><i className="bi bi-basket3 icon-spacer" onMouseOver={handleMouseOver}><span className="hide-words">cart</span></i></li>
+                            <li><Link to={`Cart/${userId}`}><i className="bi bi-basket3 icon-spacer" onMouseOver={handleMouseOver}><span className="hide-words">cart</span></i></Link></li>
                         </ul>
                     </div>
                 </div>

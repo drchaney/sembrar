@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { Register } from "./"
 
 export default function Login({ setToken, token, setNavHover }){    
@@ -8,7 +9,7 @@ export default function Login({ setToken, token, setNavHover }){
     const [response, setResponse] = useState("")
     const [passwordCheck, setPasswordCheck] = useState('')
     const [emailCheck, setEmailCheck] = useState('')
-    
+    const navigate = useNavigate();
     
     const handleMouseExitClick = () => {
         setFormToDisplay("defaultLogin")
@@ -67,6 +68,7 @@ export default function Login({ setToken, token, setNavHover }){
         setPasswordCheck("")
         setResponse("")
         setFormToDisplay("defaultLogin")
+        
     }
     
     async function loginSubmit(event) {
@@ -107,6 +109,7 @@ export default function Login({ setToken, token, setNavHover }){
         setEmailCheck("")
         setPasswordCheck("")
         setFormToDisplay("defaultLogin")
+        navigate('/')
     }
 
     return(
