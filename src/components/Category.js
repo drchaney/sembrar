@@ -7,7 +7,7 @@ export default function Category({navHover, setNavHover, setToken, token, userId
     }
     return (
         navHover=="account"?<div className="account-menu"><Login setToken={setToken} token={token} setNavHover={setNavHover}/></div>:
-        navHover=="cart"?<div className="cart-menu"><Cart token={token} userId={userId}/></div>:
+        navHover=="cart"?<div className="cart-menu"><Cart token={token} userId={userId} setNavHover={setNavHover}/></div>:
         <>
             <div className="video-over">
                 <h1 className="cat-tag">{navHover}</h1>

@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import "./cart.css"
 
-export default function Cart({token, userId}){ 
+export default function Cart({token, userId, setNavHover}){ 
     const [cart, setCart] = useState([])
-        
+
+    const handleMouseExitClick = () => {
+        setNavHover("")
+    }
+
     useEffect(()=>{
         if (token){
             async function getUserCart() {
@@ -25,6 +30,7 @@ export default function Cart({token, userId}){
                 }
             }
             getUserCart();
+
         } else {
             async function getGuestCart() {
                 const URL = "http://localhost:4000/api/orders/guest-cart"
@@ -51,31 +57,42 @@ export default function Cart({token, userId}){
     },[])
 
     return(
-        <div className="container cart-container">
-            <h1 className="cart-qty">{cart.length} item(s) in your basket</h1>
-            {  
-                cart.map((item, index) => {
-                    return(
-                        <div key={index} className="cart-item-card">
-                            <div className="row align-items-center">
-                                <div className="col">
-                                    <img src={item.url} alt={item.product_name} className="img-fluid rounded cart-img"/>
-                                </div>
-                                <div className="col-md-8">
-                                    <div className="card-body text-center">
-                                        <h5 className="card-title text-start">{item.product_name}</h5>
-                                        <div className="row">
-                                            <div className="col">${item.price} each</div>
-                                            <div className="col">{item.qty}</div>
-                                            <div className="col">${item.qty * item.price} subtotal</div>
+        cart.length>0?
+            <div className="container cart-container">
+                <div className="login-popup-wrapper"> <div className="close-button"><i className="green-text bi bi-x-square" onClick={handleMouseExitClick}></i></div>
+                {
+                    cart.length==1?<h1 className="cart-qty">{cart.length} item in your basket</h1>
+                    : <h1 className="cart-qty">{cart.length} items in your basket</h1>
+                }
+                
+                {  
+                    cart.map((item, index) => {
+                        return(
+                            <div key={index} className="cart-item-card">
+                                <div className="row align-items-center">
+                                    <div className="col">
+                                        <img src={item.url} alt={item.product_name} className="img-fluid rounded cart-img"/>
+                                    </div>
+                                    <div className="col-md-8">
+                                        <div className="card-body text-center">
+                                            <h5 className="card-title text-start">{item.product_name}</h5>
+                                            <div className="row">
+                                                <div className="col">${item.price} each</div>
+                                                <div className="col">{item.qty}</div>
+                                                <div className="col">${item.qty * item.price} subtotal</div>
+                                                
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    )
-                })
-            } 
-        </div>
+                        )
+                    })
+                } 
+                </div>
+                <div className="text-end">total price :{cart.reduce((total, item)=>total+(item.price*item.qty),0)}</div>
+                <Link to="/Checkout" className="btn btn-success login-button my-3">Checkout</Link>
+            </div>
+        : null
     )
 }

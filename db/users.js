@@ -4,8 +4,7 @@ const SALT_COUNT = 12;
 
 async function createUser({ email, password }) {
     const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
-    console.log (email, password)
-
+    
     try {
         const {rows: [user]} = await client.query(`
             INSERT INTO users(email, hashedpassword) VALUES ($1, $2)

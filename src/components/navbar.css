@@ -1,6 +1,5 @@
 .sales-banner{
     background-color: yellow;
-    text-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
     position: relative;
     z-index: 1000;
 }
