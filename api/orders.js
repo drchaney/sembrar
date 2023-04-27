@@ -1,6 +1,6 @@
 const express = require('express');
 const ordersRouter = express.Router();
-const { getCartByUserId, getOrdersByUserId, createCart, addToCart, getCartIdByUserId } = require('../db');
+const { getCartByUserId, getOrdersByUserId, createCart, addToCart, getCartIdByUserId, interpretCart } = require('../db');
 const { requireUser } = require('./utils');
 
 // GET /api/orders/
@@ -47,23 +47,16 @@ ordersRouter.post('/add2cart', requireUser, async (req, res, next) => {
     }
 });
 
-// Shouldn't need this anymore... :D 
-// POST /api/orders/cart/create
-// ordersRouter.post('/cart/create', requireUser, async (req, res, next) => {
-//     try {
-//         const cart = await createCart({user_id: req.user.id, isActive: true});
-//         if(cart.id) {
-//             res.send({cart_id: cart.id});
-//         } else {
-//              next({
-//              name: 'CartError',
-//              message: `Not able to create a cart for ${req.user.id}`
-//             })
-//         }
-//     } catch (error) {
-//         next(error);
-//     }
-// });
+// GET /api/orders/guest-cart
+ordersRouter.post('/guest-cart', async (req, res, next) => {
+    try {
+        const {product_id} = req.body;
+        let cart = await interpretCart({product_id});
+        res.send(cart)
+    } catch (error) {
+        next(error);
+    }
+});
 
 // GET /api/orders/:user_id
 ordersRouter.get('/:user_id', async (req, res, next) => {

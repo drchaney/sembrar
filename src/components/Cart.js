@@ -3,42 +3,60 @@ import "./cart.css"
 
 export default function Cart({token, userId}){ 
     const [cart, setCart] = useState([])
-    
-    // If not logged in...
-        // Create a "Cart" by using localStorage only
-        // Add lins to localStorage cart
-        // Checkout with that cart
-    //Create a cart_line with cart_id, product_id, qty
-    
+        
     useEffect(()=>{
-        async function getUserCart() {
-            const URL = "http://localhost:4000/api/orders/cart/" + userId;
-            try {
-            const bearer = 'Bearer ' + token;
-            const response = await fetch(URL, {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': bearer
+        if (token){
+            async function getUserCart() {
+                const URL = "http://localhost:4000/api/orders/cart/" + userId;
+                try {
+                const bearer = 'Bearer ' + token;
+                const response = await fetch(URL, {
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': bearer
+                    }
+                })
+                const result = await response.json()
+                console.log(result)
+                setCart(result)
+                } catch (error) {
+                    console.error(error)
                 }
-            })
-            const result = await response.json()
-            console.log(result)
-            setCart(result)
-            } catch (error) {
-                console.error(error)
             }
+            getUserCart();
+        } else {
+            async function getGuestCart() {
+                const URL = "http://localhost:4000/api/orders/guest-cart"
+                const savedBasket = JSON.parse(localStorage.getItem("cart"))
+                let resultsArray = []                
+                try {
+                    for (let i = 0; i<savedBasket.length; i++){
+                        const response = await fetch(URL, {
+                            method: "POST",
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ product_id: savedBasket[i]["itemId"] })
+                        })
+                        const result = await response.json()
+                        result[0].qty = savedBasket[i]["qty"]
+                        resultsArray.push(result[0])
+                    }
+                    setCart(resultsArray)
+                } catch (error) {
+                    console.error(error)
+                }
+            }
+            getGuestCart();
         }
-        getUserCart()
     },[])
 
     return(
         <div className="container cart-container">
             <h1 className="cart-qty">{cart.length} item(s) in your basket</h1>
             {  
-                cart.map((item) => {
+                cart.map((item, index) => {
                     return(
-                        <div className="cart-item-card">
+                        <div key={index} className="cart-item-card">
                             <div className="row align-items-center">
                                 <div className="col">
                                     <img src={item.url} alt={item.product_name} className="img-fluid rounded cart-img"/>

@@ -12,7 +12,6 @@ export default function App() {
     useEffect(()=>{
         const savedToken = localStorage.getItem("token")
         const savedBasket = JSON.parse(localStorage.getItem("cart"))
-        console.log(savedBasket)
         
         async function verifyToken() {
             const URL = "http://localhost:4000/api/users/me"

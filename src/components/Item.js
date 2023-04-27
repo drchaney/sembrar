@@ -70,8 +70,9 @@ export default function Item({id, token, userId, setBasket, basket}) {
     async function handleAddToCart(event) {
         event.preventDefault();
         let cart_line = {itemId, qty}
-        let cart = [];
+        let cart = basket;
         cart.push(cart_line)
+        setBasket(cart)
         localStorage.setItem('cart', JSON.stringify(cart));
 
         if (token){
