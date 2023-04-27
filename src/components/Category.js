@@ -6,14 +6,13 @@ export default function Category({navHover, setNavHover, setToken, token, userId
         setNavHover("")
     }
     return (
-        navHover=="account"?<div className="account-menu"><Login setToken={setToken} token={token} setNavHover={setNavHover}/></div>:
-        navHover=="cart"?<div className="cart-menu"><Cart token={token} userId={userId} setNavHover={setNavHover}/></div>:
+        navHover=="account"?<div onMouseLeave={handleMouseOver} className="account-menu"><Login setToken={setToken} token={token} setNavHover={setNavHover}/></div>:
+        navHover=="cart"?<div onMouseLeave={handleMouseOver} className="cart-menu"><Cart token={token} userId={userId} setNavHover={setNavHover}/></div>:
         <>
-            <div className="video-over">
+            <div className="video-over" onMouseLeave={handleMouseOver}>
                 <h1 className="cat-tag">{navHover}</h1>
                 <h2 className="sub-header container">featured products:</h2>
                 <div className="featured-products"><Featured navHover={navHover} setNavHover={setNavHover} token={token}/></div>
-                <div className="invisible-border" onMouseOver={handleMouseOver}></div>
             </div>
         </>
     )

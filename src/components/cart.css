@@ -2,11 +2,35 @@
 
 }
 
+.qty-box{
+    width: 50px;
+}
+
 .cart-item-card{
-    margin: 5px;
+    border-radius: 5px;
+    background-color: #eeeeee;
 }
 
 .cart-img{
     height: 100px;
+}
 
+.cart-summary{
+    border: 1px solid green;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+    background: rgba(255,255,255,0.75)
+}
+
+.promo-summary{
+    border: 1px solid green;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px rgba(13, 13, 13, 0.5);
+}
+
+.left-image{
+    background-image: url("../assets/checkout.png");
+    height: 1000px;
+    background-position: left;
+    background-repeat: no-repeat;
 }

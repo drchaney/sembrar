@@ -21,14 +21,6 @@ video {
     height: 25vw;
 }
 
-.invisible-border{
-    width: 100%;
-    height: 60vh;
-    z-index: 100;
-    background: rgb(0,0,0);
-    background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.0) 100%);
-}
-
 .feat-card{
     background-position: center;
     background-repeat: no-repeat;

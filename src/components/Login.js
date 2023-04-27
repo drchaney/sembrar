@@ -113,7 +113,7 @@ export default function Login({ setToken, token, setNavHover }){
     }
 
     return(
-        <div className="login-popup-wrapper"> <div className="close-button"><i className="green-text bi bi-x-square" onClick={handleMouseExitClick}></i></div>
+        <div className="login-popup-wrapper">
             <div className="login-popup-sub-wrapper">
                 {
                     token?
