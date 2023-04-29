@@ -4,11 +4,15 @@
 
 .qty-box{
     width: 50px;
+    height: 25px;
+    background: #fafafa;
 }
 
 .cart-item-card{
     border-radius: 5px;
     background-color: #eeeeee;
+    border: 2px outset #ccc;
+    
 }
 
 .cart-img{
@@ -30,7 +34,16 @@
 
 .left-image{
     background-image: url("../assets/checkout.png");
-    height: 1000px;
+    height: 600px;
     background-position: left;
     background-repeat: no-repeat;
+}
+
+.item-name-header{
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-border{
+    
+    border-right: 1px solid #ddd;
 }

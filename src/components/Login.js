@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Register } from "./"
 
-export default function Login({ setToken, token, setNavHover }){    
+export default function Login({ setToken, token, setNavHover, setUserId, userEmail, setUserEmail }){    
     const [formToDisplay, setFormToDisplay] = useState("defaultLogin")
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -91,6 +91,8 @@ export default function Login({ setToken, token, setNavHover }){
                 setResponse(result.name)
             } else if (result.user.email == email){
                 setToken(result.token)
+                setUserEmail(result.user.email)
+                setUserId(result.user.id)
                 localStorage.setItem("token", result.token);   
                 localStorage.setItem("user", result.user.email);
             }   
@@ -128,12 +130,15 @@ export default function Login({ setToken, token, setNavHover }){
 
                         :<>
                             <div className="container">
-                                <div className="m-4">Hey, person you!</div>
-                                <ul>
-                                    <li>Want to review your profile?</li>
-                                    <li>Change your password?</li>
-                                    <li>Check your old orders?</li>
-                                </ul>
+                                <h5 className="m-4">Logged in as {userEmail}</h5>
+                                <div className="logged-in-menu container">
+                                <h6 className="m-1">Options:</h6>
+                                    <ul>
+                                        <li className="green-text"><a href="/">Manage your profile</a></li>
+                                        <li className="green-text"><a href="/">Change your password</a></li>
+                                        <li className="green-text"><a href="/">Review previous orders</a></li>
+                                    </ul>
+                                </div>
                                 <button type="submit" className="btn btn-success m-3" onClick={logout}>Logout</button>
                             </div>
                         </>

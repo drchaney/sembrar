@@ -67,6 +67,33 @@ async function interpretCart( {product_id } ){
     }
 }
 
+async function editCart( {qty, cart_id, product_id } ){
+    try {
+        const {rows} = await client.query(`
+            UPDATE cart_lines
+            SET qty = $1
+            WHERE cart_id = $2 AND product_id = $3
+            RETURNING *;
+        `, [qty, cart_id, product_id]);
+        return rows;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function deleteCartLine( {cart_id, product_id }){
+    try {
+        const {rows} = await client.query(`
+            DELETE FROM cart_lines 
+            WHERE cart_id = $1 AND product_id = $2
+            RETURNING *;
+        `, [cart_id, product_id]);
+        return rows;
+    } catch (error) {
+        throw error;
+    } 
+}
+
 async function getOrdersByUserId( {user_id} ){
     try {
         const {rows} = await client.query(`
@@ -77,6 +104,20 @@ async function getOrdersByUserId( {user_id} ){
         JOIN product_photos ON products.id = product_photos.product_id
         WHERE orders.user_id = $1;
         `, [user_id]);
+        return rows;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function checkCode( {code} ){
+    try {
+        const {rows} = await client.query(`
+        SELECT code, discount
+        FROM promo_codes
+        WHERE code = $1
+        AND isactive = true
+        `, [code]);
         return rows;
     } catch (error) {
         throw error;
@@ -103,7 +144,10 @@ module.exports = {
     createOrder,
     createCart,
     getCartIdByUserId,
-    interpretCart
+    interpretCart,
+    editCart,
+    deleteCartLine,
+    checkCode
 };
 
 

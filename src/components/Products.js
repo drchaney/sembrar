@@ -102,7 +102,7 @@ export default function Products() {
                                                             )
                                                         })
                                                     }
-                                                    <li className="feat-tag d-flex align-items-center me-2"><img className="star" src={star} alt="rating out of 5 stars"/>{product.avg_rating}</li>
+                                                    <li className="m-2 product-tag"><img className="star" src={star} alt="rating out of 5 stars"/>{product.avg_rating}</li>
                                                 </ul>
                                                 <div className="card-footer">
                                                     <div className="container add-to-cart">

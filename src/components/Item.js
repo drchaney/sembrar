@@ -4,7 +4,7 @@ import { Tags, Reviews } from "./"
 import "./item.css"
 import greenStar from "../assets/greenstar.png"
 
-export default function Item({id, token, userId, setBasket, basket}) {
+export default function Item({id, token, userId }) {
     const {itemId} = useParams();
     const [product, setProduct] = useState([])
     const [qty, setQty] = useState(1)
@@ -69,12 +69,18 @@ export default function Item({id, token, userId, setBasket, basket}) {
 
     async function handleAddToCart(event) {
         event.preventDefault();
-        let cart_line = {itemId, qty}
-        let cart = basket;
-        cart.push(cart_line)
-        setBasket(cart)
-        localStorage.setItem('cart', JSON.stringify(cart));
-
+        if (!token){
+            let cart_line = {itemId, qty}
+            let cart = JSON.parse(localStorage.getItem("cart"))
+            if (!cart){
+                cart = []
+                localStorage.setItem('cart', JSON.stringify(cart));
+                cart = JSON.parse(localStorage.getItem("cart"))
+            }
+            cart.push(cart_line) 
+            localStorage.setItem('cart', JSON.stringify(cart));
+        } 
+        
         if (token){
             try {
                 const URL = "http://localhost:4000/api/orders/add2cart"

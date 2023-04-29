@@ -140,3 +140,16 @@
     color: red;
     font-weight: bold;
 }
+
+.logged-in-menu{
+    border: 2px outset #ccc;
+    
+    border-radius: 5px;
+    background-color: #eeeeee;
+
+}
+
+.logged-in-menu a{
+    text-decoration: none;
+    color: green;
+}
