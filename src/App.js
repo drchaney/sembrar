@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { Route, Routes } from "react-router-dom"
-import { Navbar, Menu, Products, Home, Item, Footer, Cart, Checkout } from "./components/"
+import { Navbar, Menu, Products, Home, Item, Footer, Cart, Checkout, Search } from "./components/"
 import "./App.css"
 
 export default function App() {
@@ -8,6 +8,7 @@ export default function App() {
     const [token, setToken] = useState('')
     const [userId, setUserId] = useState('')
     const [userEmail, setUserEmail] = useState("")
+    const [searchTerm, setSearchTerm] = useState("")
     
        
     useEffect(()=>{
@@ -39,7 +40,7 @@ export default function App() {
 
     return (
         <>
-            <Navbar setNavHover={setNavHover} userId={userId}/>
+            <Navbar setNavHover={setNavHover} userId={userId} setSearchTerm={setSearchTerm} searchTerm={searchTerm}/>
             <Menu navHover={navHover} setNavHover={setNavHover} setToken={setToken} token={token} userId={userId} setUserId={setUserId} userEmail={userEmail} setUserEmail={setUserEmail}/>
             <Routes>
                 <Route path="/" element={<Home token={token}/>}/>
@@ -48,6 +49,7 @@ export default function App() {
                 <Route path="Cart/:userId" element={<Cart token={token} userId={userId} setNavHover={setNavHover}/>}/>
                 <Route path="Cart/" element={<Cart token={token} userId={userId} navHover={navHover} setNavHover={setNavHover}/>}/>
                 <Route path="Checkout/" element={<Checkout token={token} userId={userId} navHover={navHover} setNavHover={setNavHover}/>}/>
+                <Route path="Search/:searchTerm" element={<Search searchTerm={searchTerm}/>}/>
             </Routes>
             <Footer/>
         </>

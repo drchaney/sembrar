@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { DateTime } from "luxon";
+import { useNavigate } from "react-router"
 import logo from "../assets/logo.png"
 import "./navbar.css"
 
-export default function Navbar({setNavHover, userId}){    
+export default function Navbar({setNavHover, userId, setSearchTerm, searchTerm}){    
     const [sale, setSale] = useState([])
     const [salesExpirationDate, setSalesExpirationDate] = useState("")
     const [categories, setCategories] = useState([])
     const [active, setActive] = useState("")
+    const navigate = useNavigate();
 
     const handleMouseOver = (event) => {
         if (active == event.target.innerText){
@@ -17,6 +19,16 @@ export default function Navbar({setNavHover, userId}){
         } else {
             setNavHover(event.target.innerText)
         }
+    }
+
+    const submitSearch = (event) => {
+        let searchPage = "/Search/" + searchTerm
+        console.log("Gonna go here: ", searchPage)
+        navigate(searchPage)
+    }
+
+    const handleSearchTerm = (event) => {
+        setSearchTerm(event.target.value)
     }
 
     const handleMouseClick = (event) => {
@@ -81,8 +93,8 @@ export default function Navbar({setNavHover, userId}){
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <form className="d-flex" role="search">
-                                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                            <form className="d-flex" role="search" onSubmit={submitSearch}>
+                                <input className="form-control me-2" type="search" placeholder="Search" onChange={handleSearchTerm} value={searchTerm}/>
                             </form>
                         </ul>
                             {

@@ -5,6 +5,7 @@ import "./cart.css"
 export default function Cart({token, userId, navHover, setNavHover, setSubtotal }){ 
     const [cart, setCart] = useState([])
     const [cartChange, setCartChange] = useState([])
+    
     function handleQtyUp(id, qty) {
         if (token){
             const newQty = qty + 1;
