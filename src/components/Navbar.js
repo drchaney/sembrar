@@ -5,7 +5,7 @@ import { useNavigate } from "react-router"
 import logo from "../assets/logo.png"
 import "./navbar.css"
 
-export default function Navbar({setNavHover, userId, setSearchTerm, searchTerm}){    
+export default function Navbar({ access, setNavHover, userId, setSearchTerm, searchTerm}){    
     const [sale, setSale] = useState([])
     const [salesExpirationDate, setSalesExpirationDate] = useState("")
     const [categories, setCategories] = useState([])
@@ -48,7 +48,7 @@ export default function Navbar({setNavHover, userId, setSearchTerm, searchTerm})
             }
         }
     getCategories();
-    },[])
+    },[access])
 
     useEffect(()=>{
         async function getSalesArticle() {
@@ -97,17 +97,23 @@ export default function Navbar({setNavHover, userId, setSearchTerm, searchTerm})
                                 <input className="form-control me-2" type="search" placeholder="Search" onChange={handleSearchTerm} value={searchTerm}/>
                             </form>
                         </ul>
-                            {
-                                categories.map((category) => {
-                                    return(
-                                        <ul className="navbar-nav me-auto mb-2 mb-lg-0" key={category.id} onMouseOver={handleMouseOver}>
-                                            <li className="nav-item">
-                                                <Link to={`Products/${category.category_name}`} onClick={handleMouseClick}> <h5>{category.category_name}</h5> </Link>
-                                            </li>
-                                        </ul>
-                                    )
-                                })
-                            }
+                        {
+                            access == 2?
+                            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li className="nav-item"><Link to="/Admin"><h5>Admin</h5></Link></li>
+                            </ul>:null
+                        }
+                        {
+                            categories.map((category) => {
+                                return(
+                                    <ul className="navbar-nav me-auto mb-2 mb-lg-0" key={category.id} onMouseOver={handleMouseOver}>
+                                        <li className="nav-item">
+                                            <Link to={`Products/${category.category_name}`} onClick={handleMouseClick}> <h5>{category.category_name}</h5> </Link>
+                                        </li>
+                                    </ul>
+                                )
+                            })
+                        }
 
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li><i className="bi bi-person-circle icon-spacer" onMouseOver={handleMouseOver}><span className="hide-words">account</span></i></li>

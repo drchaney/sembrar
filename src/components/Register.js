@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function Register({email, password, formToDisplay, setResponse, setToken}){
+export default function Register({setUserEmail, setAccess, setUserId, email, password, formToDisplay, setResponse, setToken}){
 
     useEffect(()=>{
         async function registerOrReset() {
@@ -24,11 +24,14 @@ export default function Register({email, password, formToDisplay, setResponse, s
                 const result = await response.json()
                 if (result.error){
                     setResponse(result.name)
-                } else if (result.user.email == email){
-                    setResponse("success")
+                } else if (result.creds.email == email){
                     setToken(result.token)
+                    setUserEmail(result.creds.email)
+                    setUserId(result.creds.id)
+                    setAccess(result.creds.user_group)
                     localStorage.setItem("token", result.token);   
-                    localStorage.setItem("user", result.user.email);
+                    localStorage.setItem("userId", result.creds.id)
+                    localStorage.setItem("email", result.creds.email)
                 } 
             } catch (error){
                 console.error (error)

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { Route, Routes } from "react-router-dom"
-import { Navbar, Menu, Products, Home, Item, Footer, Cart, Checkout, Search } from "./components/"
+import { Navbar, Menu, Products, Home, Item, Footer, Cart, Checkout, Search, Verify, Admin } from "./components/"
 import "./App.css"
 
 export default function App() {
@@ -9,12 +9,12 @@ export default function App() {
     const [userId, setUserId] = useState('')
     const [userEmail, setUserEmail] = useState("")
     const [searchTerm, setSearchTerm] = useState("")
+    const [access, setAccess] = useState(1)
     
        
     useEffect(()=>{
         const savedToken = localStorage.getItem("token")
-        setUserEmail(localStorage.getItem("user"))
-
+    
         async function verifyToken() {
             const URL = "http://localhost:4000/api/users/me"
             const bearer = 'Bearer ' + savedToken;
@@ -27,8 +27,19 @@ export default function App() {
                     }
                 })
                 const result = await response.json()
-                setUserId(result.user_id)
-                setToken(savedToken)
+                if (result.user_id>0){
+                    setUserId(result.user_id)
+                    setAccess(result.user_group)
+                    setUserEmail(result.email)
+                    setToken(savedToken)
+                    localStorage.setItem("userId", result.user_id)
+                    localStorage.setItem("email", result.email)
+                } else {
+                    console.log("invalid token")
+                    localStorage.removeItem("token")
+                    localStorage.removeItem("userId")
+                    localStorage.removeItem("email")
+                }
             } catch (error){
                 console.error (error)
             }
@@ -40,8 +51,8 @@ export default function App() {
 
     return (
         <>
-            <Navbar setNavHover={setNavHover} userId={userId} setSearchTerm={setSearchTerm} searchTerm={searchTerm}/>
-            <Menu navHover={navHover} setNavHover={setNavHover} setToken={setToken} token={token} userId={userId} setUserId={setUserId} userEmail={userEmail} setUserEmail={setUserEmail}/>
+            <Navbar access={access} setNavHover={setNavHover} userId={userId} setSearchTerm={setSearchTerm} searchTerm={searchTerm}/>
+            <Menu setAccess={setAccess} navHover={navHover} setNavHover={setNavHover} setToken={setToken} token={token} userId={userId} setUserId={setUserId} userEmail={userEmail} setUserEmail={setUserEmail}/>
             <Routes>
                 <Route path="/" element={<Home token={token}/>}/>
                 <Route path="products/:category" element={<Products/>}/>
@@ -50,6 +61,8 @@ export default function App() {
                 <Route path="Cart/" element={<Cart token={token} userId={userId} navHover={navHover} setNavHover={setNavHover}/>}/>
                 <Route path="Checkout/" element={<Checkout token={token} userId={userId} navHover={navHover} setNavHover={setNavHover}/>}/>
                 <Route path="Search/:searchTerm" element={<Search searchTerm={searchTerm}/>}/>
+                <Route path="Verify/" element={<Verify token={token}/>}/>
+                <Route path="Admin/" element={<Admin token={token}/>}/>
             </Routes>
             <Footer/>
         </>

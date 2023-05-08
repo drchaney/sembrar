@@ -35,6 +35,7 @@ ordersRouter.get('/cart/:user_id', async (req, res, next) => {
 ordersRouter.post('/add2cart', requireUser, async (req, res, next) => {
     try {
         const {user_id, product_id, qty} = req.body;
+        console.log("Receiving: ", req.body)
         let cartToUpdate = await getCartIdByUserId({user_id});
         if (cartToUpdate.length == 0){
             cartToUpdate = await createCart({user_id, isActive: true});

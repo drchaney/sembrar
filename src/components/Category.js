@@ -1,12 +1,12 @@
 import { Featured, Login, Cart } from "./"
 
-export default function Category({navHover, setNavHover, setToken, token, userId, setUserId, userEmail, setUserEmail }){ 
+export default function Category({setAccess, navHover, setNavHover, setToken, token, userId, setUserId, userEmail, setUserEmail }){ 
     
     const handleMouseOver = (event) => {
         setNavHover("")
     }
     return (
-        navHover=="account"?<div onMouseLeave={handleMouseOver} className="account-menu"><Login setToken={setToken} token={token} setNavHover={setNavHover} setUserId={setUserId} userEmail={userEmail} setUserEmail={setUserEmail}/></div>:
+        navHover=="account"?<div onMouseLeave={handleMouseOver} className="account-menu"><Login setAccess={setAccess} setToken={setToken} token={token} setNavHover={setNavHover} setUserId={setUserId} userEmail={userEmail} setUserEmail={setUserEmail}/></div>:
         navHover=="cart"?<div onMouseLeave={handleMouseOver} className="cart-menu"><Cart token={token} userId={userId} navHover={navHover} setNavHover={setNavHover} /></div>:
         <>
             <div className="video-over" onMouseLeave={handleMouseOver}>

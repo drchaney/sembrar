@@ -57,8 +57,8 @@ async function loginUser({email, password}) {
         if(!passwordsMatch){
             return;
         }
-        const { id } = user;
-        const userDetails = { id, email }
+        const { id, user_group } = user;
+        const userDetails = { id, user_group }
         return userDetails;
     } catch (error) {
         throw error;

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import { Cart } from "./"
 
 export default function Checkout({token, userId, navHover, setNavHover}) {
@@ -105,7 +106,7 @@ export default function Checkout({token, userId, navHover, setNavHover}) {
                             </div>
                             <div className="row">
                                 <div className="col">
-                                    <button type="button" className="btn btn-success">CHECKOUT</button>
+                                    <Link to="/Verify"> <button type="button" className="btn btn-success">CHECKOUT</button></Link>
                                 </div>
                             </div>
                         </div>

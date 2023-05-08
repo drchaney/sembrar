@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Register } from "./"
 
-export default function Login({ setToken, token, setNavHover, setUserId, userEmail, setUserEmail }){    
+export default function Login({ setAccess, setToken, token, setNavHover, setUserId, userEmail, setUserEmail }){    
     const [formToDisplay, setFormToDisplay] = useState("defaultLogin")
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -70,7 +70,7 @@ export default function Login({ setToken, token, setNavHover, setUserId, userEma
         setFormToDisplay("defaultLogin")
         
     }
-    
+    console.log("token: ", token)
     async function loginSubmit(event) {
         event.preventDefault();
         try {
@@ -89,12 +89,15 @@ export default function Login({ setToken, token, setNavHover, setUserId, userEma
             const result = await response.json()
             if (result.error){
                 setResponse(result.name)
-            } else if (result.user.email == email){
+            } else if (result.creds.email == email){
+                console.log("result: ", result)
                 setToken(result.token)
-                setUserEmail(result.user.email)
-                setUserId(result.user.id)
+                setUserEmail(result.creds.email)
+                setUserId(result.creds.id)
+                setAccess(result.creds.user_group)
                 localStorage.setItem("token", result.token);   
-                localStorage.setItem("user", result.user.email);
+                localStorage.setItem("userId", result.creds.id)
+                localStorage.setItem("email", result.creds.email)
             }   
         } catch (error){
             console.error ("There was an error: ", error);
@@ -103,8 +106,10 @@ export default function Login({ setToken, token, setNavHover, setUserId, userEma
 
     function logout(){
         localStorage.removeItem("token")
-        localStorage.removeItem("user")
+        localStorage.removeItem("userId")
+        localStorage.removeItem("email")
         setToken("")
+        setAccess(1)
         setResponse("")
         setEmail("")
         setPassword("")
@@ -229,7 +234,7 @@ export default function Login({ setToken, token, setNavHover, setUserId, userEma
                                 </div>
                                 <div className="container text-center">
                                     {
-                                        response == "registerAttempt" ? <><p className="m-3 text-green">Registering...</p><Register email={email} password={password} formToDisplay={formToDisplay} setResponse={setResponse} setToken={setToken}/></>
+                                        response == "registerAttempt" ? <><p className="m-3 text-green">Registering...</p><Register setUserEmail={setEmail} setAccess={setAccess} setUserId={setUserId} email={email} password={password} formToDisplay={formToDisplay} setResponse={setResponse} setToken={setToken}/></>
                                         : response == "EmailExistsError" ? <><p className="m-3 text-red">Email already exists</p><button type="button" onClick={clearForm} className="btn btn-success login-button my-3">Try Again</button></>
                                         : response == "InvalidEmailError" ? <><p className="m-3 text-red">Not a valid email</p><button type="button" onClick={clearForm} className="btn btn-success login-button my-3">Try Again</button></>
                                         : response == "PasswordLengthError" ? <><p className="m-3 text-red">Password too short</p><button type="button" onClick={clearForm} className="btn btn-success login-button my-3">Try Again</button></>

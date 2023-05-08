@@ -11,7 +11,8 @@ export {default as Footer} from "./Footer";
 export {default as Tags} from "./Tags";
 export {default as Reviews} from "./Reviews"
 export {default as Cart} from "./Cart"
-export {default as Add} from "./Add"
+export {default as Admin} from "./Admin"
 export {default as Register} from "./Register"
 export {default as Checkout} from "./Checkout"
 export {default as Search} from "./Search"
+export {default as Verify} from "./Verify"

@@ -15,7 +15,6 @@ async function dropTables() {
         DROP TABLE IF EXISTS categories;
         DROP TABLE IF EXISTS orders;
         DROP TABLE IF EXISTS promo_codes;
-        DROP TABLE IF EXISTS carts;
         DROP TABLE IF EXISTS articles;
         DROP TABLE IF EXISTS carts;
         DROP TABLE IF EXISTS users;
@@ -99,7 +98,7 @@ async function createTables() {
                 created_by INT NOT NULL REFERENCES users(id)
             );
 
-              CREATE TABLE orders (
+            CREATE TABLE orders (
                 id SERIAL PRIMARY KEY,
                 first_name VARCHAR(255),
                 last_name VARCHAR(255),
