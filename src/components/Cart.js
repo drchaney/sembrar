@@ -201,7 +201,7 @@ export default function Cart({token, userId, navHover, setNavHover, setSubtotal 
                     for (let i = 0; i<result.length; i++){
                         sumPrice += result[i].price * result[i].qty
                     }
-                    // setSubtotal(sumPrice)
+                    setSubtotal(sumPrice)
 
                 } catch (error) {
                     console.error(error)
