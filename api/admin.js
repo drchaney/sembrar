@@ -3,7 +3,6 @@ const adminRouter = express.Router();
 const { getArticlesByType } = require('../db');
 
 // GET /api/admin/:article_type
-// This probably needs to be a hook in the page, not an API endpoint
 adminRouter.get('/:article_type', async (req, res, next) => {
     try {
         const articles = await getArticlesByType({article_type: req.params.article_type});

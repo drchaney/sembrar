@@ -59,10 +59,6 @@ video {
     background: linear-gradient(90deg, rgba(0,0,0,0.5) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 100%);
 }
 
-.container-story{
-    
-}
-
 .sub-wrapper{
     position: relative;
     width: 50%;
@@ -78,6 +74,6 @@ video {
     height: 18px;
 }
 
-.footer-bottom{
-    
+.admin-menu img{
+    width: 250px;
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { Route, Routes } from "react-router-dom"
-import { Navbar, Menu, Products, Home, Item, Footer, Cart, Checkout, Search, Verify, Admin } from "./components/"
+import { Navbar, Menu, Products, Home, Item, Footer, Cart, Checkout, Search, Verify, Admin, AdminUsers, AdminComms, AdminProducts, AdminOrders } from "./components/"
 import "./App.css"
 
 export default function App() {
@@ -63,6 +63,7 @@ export default function App() {
                 <Route path="Search/:searchTerm" element={<Search searchTerm={searchTerm}/>}/>
                 <Route path="Verify/" element={<Verify token={token}/>}/>
                 <Route path="Admin/" element={<Admin token={token}/>}/>
+                <Route path="AdminUsers/" element={<AdminUsers token={token}/>}/>
             </Routes>
             <Footer/>
         </>
